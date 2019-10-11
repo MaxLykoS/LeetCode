@@ -1,0 +1,47 @@
+class Solution {
+public:
+bool isMonotonic(vector<int>& A) 
+{
+	if (A.size() < 2)
+		return true;
+	bool bincrease = true;
+	int pre = A[0],i;
+	for (i = 1; i < A.size(); ++i)
+	{
+		if (A[i] - pre > 0)
+		{
+			bincrease = true;
+			break;
+		}
+		else if (A[i] - pre < 0)
+		{
+			bincrease = false;
+			break;
+		}
+		pre = A[i];
+	}
+	if (bincrease)
+	{
+		for (i = 1; i < A.size(); ++i)
+		{
+			if (A[i] - pre < 0)
+			{
+				return false;
+			}
+			pre = A[i];
+		}
+	}
+	else
+	{
+		for (i = 1; i < A.size(); ++i)
+		{
+			if (A[i] - pre > 0)
+			{
+				return false;
+			}
+			pre = A[i];
+		}
+	}
+	return true;
+}
+};

@@ -1,0 +1,38 @@
+class Solution {
+public:
+bool hasGroupsSizeX(vector<int>& deck) 
+{
+	map<int,int> m;
+	int minCount=INT_MAX;
+	int deckSize = deck.size();
+
+	for (auto it = deck.begin(); it != deck.end(); ++it)
+	{
+		++m[*it];
+	}
+
+	for (auto it = m.begin();it!=m.end();++it)
+	{
+		minCount = min(minCount, it->second);
+	}
+
+	for (int X = minCount; X > 1; --X)
+	{
+		if (deckSize % X == 0 && minCount % X == 0)
+		{
+			bool flag = false;
+			for (auto it = m.begin(); it != m.end(); ++it)
+			{
+				if (it->second % X != 0)
+				{
+					flag = true;
+					break;
+				}
+			}
+			if (!flag)
+				return true;
+		}
+	}
+	return false;
+}
+};

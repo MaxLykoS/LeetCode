@@ -1,0 +1,27 @@
+class Solution {
+public:
+vector<int> plusOne(vector<int>& digits) 
+{
+	bool flag = false;
+	digits[digits.size() - 1]++;
+	for (int i = digits.size() - 1; i >= 0; i--)
+	{
+		if (flag)
+		{
+			flag = false;
+			digits[i]++;
+		}
+		if (digits[i] >=10)
+		{
+			flag = true;
+			digits[i] = 0;
+		}
+	}
+	if (flag)
+	{
+		digits[0] = 1;
+		digits.push_back(0);
+	}
+	return digits;
+}
+};

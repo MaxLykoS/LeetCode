@@ -1,0 +1,24 @@
+class Solution {
+public:
+int thirdMax(vector<int>& nums) 
+{
+	long long Max = -10000000000, sec = -10000000000, trd = -10000000000;
+	for (auto it = nums.begin();it!=nums.end();++it)
+	{
+		if (*it > Max)
+		{
+			trd = sec;
+			sec = Max;
+			Max = *it;
+		}
+		else if (*it<Max && *it>sec)
+		{
+			trd = sec;
+			sec = *it;
+		}
+		else if (*it<sec && *it>trd)
+			trd = *it;
+	}
+	return trd == -10000000000 ? Max : trd;
+}
+};

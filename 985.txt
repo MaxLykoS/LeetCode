@@ -1,0 +1,29 @@
+class Solution {
+public:
+vector<int> sumEvenAfterQueries(vector<int>& A, vector<vector<int>>& queries) 
+{
+	int sum = 0;
+	for (int i : A)
+	{
+		if (i % 2==0)
+			sum += i;
+	}
+	vector<int> ans(queries.size());
+	int index, ians=0,newSum;
+	for (int i = 0; i < queries.size(); ++i)
+	{
+		index = queries[i][1];
+		if (A[index] % 2 == 0)
+			newSum = sum - A[index];
+		else
+			newSum = sum;
+		A[index] += queries[i][0];
+		if (A[index] % 2==0)
+			newSum += A[index];
+		ans[ians++]=newSum;
+		sum = newSum;
+	}
+
+	return ans;
+}
+};

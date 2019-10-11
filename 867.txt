@@ -1,0 +1,16 @@
+class Solution {
+public:
+vector<vector<int>> transpose(vector<vector<int>>& A)
+{
+	int Asize= A.size(), Aisize= A[0].size();
+	vector<vector<int>> ans(A[0].size(),vector<int>(A.size()));
+	for (int i = 0; i < Asize; ++i)
+	{
+		for (int j = 0; j < Aisize; ++j)
+		{
+			ans[j][i] = A[i][j];
+		}
+	}
+	return ans;
+}
+};

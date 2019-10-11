@@ -1,0 +1,20 @@
+class Solution {
+public:
+int maxProfit(vector<int>& prices) 
+{
+	int curProfit = 0, size = prices.size();
+	if (size == 1 || size == 0)
+		return 0;
+	int profit;
+	for (int i = 1; i < size; i++)
+	{
+		profit = prices[i] - prices[i - 1];
+		if (profit > 0)
+		{
+			curProfit += profit;
+			profit = 0;
+		}
+	}
+	return curProfit;
+}
+};

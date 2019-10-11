@@ -1,0 +1,31 @@
+class Solution {
+public:
+bool validMountainArray(vector<int>& A) 
+{
+	if (A.size() < 3)
+		return false;
+	// 左小 最大值 右小
+
+	int top=0;
+	for (int i = 1;i<A.size();++i)
+	{
+		if (A[i - 1] == A[i])
+			return false;
+		if (A[i-1] > A[i])
+		{
+			top = i - 1;
+			break;
+		}
+	}
+	for (int i = A.size() - 1; i > 0; --i)
+	{
+		if (A[i - 1] == A[i])
+			return false;
+		if (A[i - 1] < A[i])
+		{
+			return top == i;
+		}
+	}
+	return false;
+}
+};

@@ -1,0 +1,15 @@
+class Solution {
+public:
+vector<vector<int>> flipAndInvertImage(vector<vector<int>>& A)
+{
+	for (vector<vector<int>>::iterator it = A.begin(); it != A.end(); ++it)
+	{
+		reverse(it->begin(), it->end());
+		for (vector<int>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
+		{
+			*it2 = *it2 == 0 ? 1 : 0;
+		}
+	}
+	return A;
+}
+};

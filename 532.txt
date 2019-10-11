@@ -1,0 +1,44 @@
+class Solution {
+public:
+int findPairs(vector<int>& nums, int k) 
+{
+	if (nums.size() <2||k<0)
+		return 0;
+	set<int> s;
+	int cnt = 0;
+	bool oFlag = k == 0 ? true : false;
+	if (oFlag)
+	{
+		sort(nums.begin(), nums.end());
+		int pre = nums[0],flag= INT_MIN;
+		for (auto it = ++nums.begin(); it != nums.end(); ++it)
+		{
+			if (*it == pre&&flag!=pre)
+			{
+				++cnt;
+				flag = pre;
+			}
+			pre = *it;
+		}
+		return cnt;
+	}
+	else
+	{
+		for (auto it = nums.begin(); it != nums.end(); ++it)
+			s.insert(*it);
+		for (auto it = s.begin(); it != s.end(); ++it)
+		{
+			if (s.find(k + *it) != s.end())
+			{
+				cnt++;
+			}
+			if (s.find(*it - k) != s.end())
+			{
+				cnt++;
+			}
+		}
+		return cnt/2;
+	}
+	return -1;
+}
+};
