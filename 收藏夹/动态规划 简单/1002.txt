@@ -1,0 +1,75 @@
+class Solution {
+public:
+vector<string> commonChars(vector<string>& A) 
+{
+	vector<string> ans;
+	size_t charCount[26];
+	memset(charCount, 101, sizeof(charCount));
+
+	size_t tempCharCount[26];
+	memset(tempCharCount, 0, sizeof(tempCharCount));
+
+	for (string s : A)
+	{
+		for (int i = 0; i < s.size(); ++i)
+		{
+			++tempCharCount[s[i] - 97];
+		}
+		for (int i = 0; i < 26; ++i)
+		{
+			charCount[i] = min(charCount[i], tempCharCount[i]);
+		}
+		memset(tempCharCount, 0, sizeof(tempCharCount));
+	}
+
+	for (int i = 0; i < 26; ++i)
+	{
+		while (charCount[i]--)
+			ans.push_back(string(1, char(i + 97)));
+	}
+
+	return ans;
+}
+};
+
+傻逼做法
+class Solution {
+public:
+vector<string> commonChars(vector<string>& A) 
+{
+	map<char, size_t> m[100];
+	set<char> s;
+	vector<string> ans;
+	for (size_t i = 0; i < A.size(); ++i)
+	{
+		for (size_t j = 0; j < A[i].size(); ++j)
+		{
+			++m[i][A[i][j]];
+			s.insert(A[i][j]);
+		}
+	}
+
+	for (auto ch = s.begin(); ch != s.end(); ++ch)
+	{
+		bool flag = true;
+		size_t minCount = 1000;
+		for (int j = 0; j < A.size(); ++j)
+		{
+			if (m[j].count(*ch) == 0)
+			{
+				flag = false;
+				break;
+			}
+			minCount = min(minCount, m[j][*ch]);
+		}
+		if (flag)
+		{
+			while (minCount--)
+			{
+				ans.push_back(string(1,*ch));
+			}
+		}
+	}
+	return ans;
+}
+};

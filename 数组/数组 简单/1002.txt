@@ -1,0 +1,33 @@
+class Solution {
+public:
+vector<string> commonChars(vector<string>& A) 
+{
+	vector<string> ans;
+	size_t charCount[26];
+	memset(charCount, 101, sizeof(charCount));
+
+	size_t tempCharCount[26];
+	memset(tempCharCount, 0, sizeof(tempCharCount));
+
+	for (string s : A)
+	{
+		for (int i = 0; i < s.size(); ++i)
+		{
+			++tempCharCount[s[i] - 97];
+		}
+		for (int i = 0; i < 26; ++i)
+		{
+			charCount[i] = min(charCount[i], tempCharCount[i]);
+		}
+		memset(tempCharCount, 0, sizeof(tempCharCount));
+	}
+
+	for (int i = 0; i < 26; ++i)
+	{
+		while (charCount[i]--)
+			ans.push_back(string(1, char(i + 97)));
+	}
+
+	return ans;
+}
+};

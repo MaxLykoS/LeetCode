@@ -1,0 +1,96 @@
+class Solution {
+public:
+int numRookCaptures(vector<vector<char>>& board) 
+{
+	int ri, rj, ans = 0;
+	bool flag = false;
+	for (int i = 0; i < 8; ++i)
+	{
+		for (int j = 0; j < 8; ++j)
+		{
+			if (board[i][j] == 'R')
+			{
+				ri = i;
+				rj = j;
+				flag = true;
+				break;
+			}
+		}
+		if (flag)
+			break;
+	}
+
+	// up
+	for (int i = ri; i >= 0; --i)
+	{
+		if (board[i][rj] == '.')
+		{
+			continue;
+		}
+		else if (board[i][rj] == 'B')
+		{
+			break;
+		}
+		else if (board[i][rj] == 'p')
+		{
+			++ans;
+			break;
+		}
+	}
+
+	// down
+	for (int i = ri; i < 8; ++i)
+	{
+		if (board[i][rj] == '.')
+		{
+			continue;
+		}
+		else if (board[i][rj] == 'B')
+		{
+			break;
+		}
+		else if (board[i][rj] == 'p')
+		{
+			++ans;
+			break;
+		}
+	}
+
+	// left
+	for (int j = rj; j >= 0; --j)
+	{
+		if (board[ri][j] == '.')
+		{
+			continue;
+		}
+		else if (board[ri][j] == 'B')
+		{
+			break;
+		}
+		else if (board[ri][j] == 'p')
+		{
+			++ans;
+			break;
+		}
+	}
+
+	// right
+	for (int j = rj; j < 8; ++j)
+	{
+		if (board[ri][j] == '.')
+		{
+			continue;
+		}
+		else if (board[ri][j] == 'B')
+		{
+			break;
+		}
+		else if (board[ri][j] == 'p')
+		{
+			++ans;
+			break;
+		}
+	}
+	return ans;
+}
+};
