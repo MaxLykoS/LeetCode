@@ -1,0 +1,16 @@
+class Solution {
+public:
+vector<bool> prefixesDivBy5(vector<int>& A) 
+{
+	unsigned int mod = 0, size = A.size();
+	vector<bool> ans(A.size());
+	int what_five_divided[] = { 0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4,0,1,2,3,4 };
+	int multi5[] = { 0,2,4,6,8 };
+	for (int i = 0; i < size; ++i)
+	{
+		mod = what_five_divided[(multi5[mod] + A[i])];
+		ans[i] = mod == 0;
+	}
+	return ans;
+}
+};

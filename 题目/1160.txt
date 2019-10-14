@@ -1,0 +1,45 @@
+class Solution {
+public:
+int countCharacters(vector<string>& words, string chars) 
+{
+	int sum = 0;
+	unsigned int ch[26];
+	unsigned int tempCh[26];
+	memset(ch,0, sizeof(ch));
+	for (char i : chars)
+	{
+		++ch[i - 'a'];
+	}
+	for (string i : words)
+	{
+		bool flag = true;
+		for (int i = 0; i < 26; ++i)
+		{
+			tempCh[i] = ch[i];
+		}
+		for (char c : i)
+		{
+			if (tempCh[c - 'a'] == 0)
+			{
+				flag = false;
+				break;
+			}
+			else
+			{
+				--tempCh[c - 'a'];
+			}
+		}
+		if (flag)
+		{
+			sum += i.length();
+		}
+	}
+	return sum;
+}
+};
+
+static int n=[](){
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    return 0;
+}();
