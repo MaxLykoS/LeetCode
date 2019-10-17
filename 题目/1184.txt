@@ -1,0 +1,22 @@
+class Solution {
+public:
+int distanceBetweenBusStops(
+	vector<int>& distance, 
+	int start, 
+	int destination) 
+{
+	long long CWdis=0,ACWdis=0;
+	int cur = start;
+	while (cur != destination)
+	{
+		CWdis += distance[cur];
+		cur = (cur + 1) % distance.size();
+	}
+	while (cur != start)
+	{
+		ACWdis += distance[cur];
+		cur = (cur + 1) % distance.size();
+	}
+	return CWdis>ACWdis?ACWdis:CWdis;
+}
+};

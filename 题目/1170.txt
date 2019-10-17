@@ -1,0 +1,36 @@
+class Solution {
+public:
+int f(string &s)
+{
+	int min_char = INT_MAX;
+	int cnt = 0;
+	for (auto& c : s)
+	{
+		if (c == min_char)
+			++cnt;
+		else if (c < min_char)
+		{
+			min_char = c;
+			cnt = 1;
+		}
+	}
+	return cnt;
+}
+vector<int> numSmallerByFrequency(vector<string>& queries, vector<string>& words)
+{
+	vector<int> ans(queries.size()), W(words.size());
+	for (int i =0;i<words.size();++i)
+	{
+		W[i] = f(words[i]);
+	}
+	sort(W.begin(), W.end());
+
+	for (int i = 0; i < queries.size(); ++i)
+	{
+		const int fVal = f(queries[i]);
+		vector<int>::iterator iter = upper_bound(W.begin(), W.end(), fVal);
+		ans[i] = W.end() - iter;
+	}
+	return ans;
+}
+};
