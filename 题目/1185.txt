@@ -1,0 +1,80 @@
+class Solution {
+public:
+bool isLeap(int y){return (y % 100 != 0 && y % 4 == 0) || (y % 400 == 0);}
+string ReturnDay(int day){switch (day){case 1:return "Monday";case 2:return "Tuesday";case 3:return "Wednesday";case 4:return "Thursday";case 5:return "Friday";case 6:return "Saturday";case 7:return "Sunday";}return "Unkown";}
+string dayOfTheWeek(int day, int month, int year)
+{
+	if (day == 18 && month == 10 && year == 2019)
+		return "Friday";  // 今天周五
+
+	int months[13] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+	int dis = 0;
+
+	if (year == 2019)  //291
+	{
+		if (month < 10)  // before, not same month
+		{
+			dis = months[month] - day;
+			for (int m = month + 1; m < 10; ++m)
+			{
+				dis += months[m];
+			}
+			dis += 18;
+			return ReturnDay((5 - dis) % 7 + 7);
+		}
+		else if ((month == 10 && day < 18)) // before, same month
+		{
+			return ReturnDay((5 - day) % 7 + 7);
+		}
+		else if (month > 10)  // after, not same month
+		{
+			dis = 13;
+			for (int m = 11; m <= month; ++m)
+			{
+				dis += months[m];
+			}
+			return ReturnDay((5 + dis) % 7);
+		}
+		else if (month == 10 && day > 18) // after, same month
+		{
+			return ReturnDay((5 + day - 18) % 7);
+		}
+	}
+	else if (year < 2019)
+	{
+		months[2] = isLeap(year) ? 29 : 28;
+		for (int m = 1; m < month; ++m)
+		{
+			dis += months[m];
+		}
+		dis += day;
+		if (isLeap(year))
+			dis = 366 - dis;
+		else
+			dis = 365 - dis;
+		for (int y = year + 1; y < 2019; ++y)
+		{
+			dis += isLeap(y) ? 366 : 365;
+		}
+		dis += 291;
+		return ReturnDay((5 - dis) % 7 + 7);
+	}
+	else if (year > 2019)
+	{
+		dis = 134;
+		for (int y = 2020; y < year; ++y)
+		{
+			dis += isLeap(y) ? 366 : 365;
+		}
+		months[2] = isLeap(year) ? 29 : 28;
+		for (int m = 1; m < month; ++m)
+		{
+			dis += months[m];
+		}
+		dis += day;
+		return ReturnDay((5 + dis) % 7);
+	}
+
+	return to_string(dis);
+}
+};
