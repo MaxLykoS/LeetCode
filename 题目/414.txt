@@ -1,3 +1,4 @@
+1.
 class Solution {
 public:
 int thirdMax(vector<int>& nums) 
@@ -20,5 +21,28 @@ int thirdMax(vector<int>& nums)
 			trd = *it;
 	}
 	return trd == -10000000000 ? Max : trd;
+}
+};
+
+2.
+class Solution {
+public:
+int thirdMax(vector<int>& nums) 
+{
+	int m1,m2,m3;
+	bool flag = false;
+	m1 = m2 = m3 = INT_MIN;
+	for (int i : nums)
+		m1 = max(m1, i);
+	for (int i : nums)
+		if (i < m1&&i>=m2)
+			m2 = i;
+	for (int i : nums)
+		if (i >= m3&&i<m2)
+		{
+			m3 = i;
+			flag = true;
+		}
+	return flag ? m3 : m1;
 }
 };
