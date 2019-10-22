@@ -1,3 +1,4 @@
+1.
 class Solution {
 public:
 vector<string> commonChars(vector<string>& A) 
@@ -28,6 +29,43 @@ vector<string> commonChars(vector<string>& A)
 			ans.push_back(string(1, char(i + 97)));
 	}
 
+	return ans;
+}
+};
+2.
+class Solution {
+public:
+vector<string> commonChars(vector<string>& A)
+{
+	vector<string> ans;
+	int book[100][26];
+	memset(book, 0, sizeof(book));
+
+	for (int i = 0; i < A.size(); ++i)
+	{
+		for (char c : A[i])
+		{
+			++book[i][c - 'a'];
+		}
+	}
+
+	for (int i = 0; i < 26; ++i)
+	{
+		int minVal = INT_MAX;
+		for (int j = 0; j < A.size(); ++j)
+		{
+			if (book[j][i] == 0)
+			{
+				minVal = 0;
+				break;
+			}
+			minVal = min(book[j][i], minVal);
+		}
+		while (minVal--)
+		{
+			ans.push_back(string(1,char(i + 'a')));
+		}
+	}
 	return ans;
 }
 };
