@@ -1,0 +1,20 @@
+1.
+class Solution {
+public:
+vector<int> searchRange(vector<int>& nums, int target) 
+{
+	vector<int> v(2);
+	auto itLeft = lower_bound(nums.begin(), nums.end(), target);
+	auto itRight = upper_bound(nums.begin(), nums.end(), target);
+	if (itLeft == itRight)
+		return vector<int>({ -1,-1 });
+	else
+	{
+		v[0] = int(itLeft - nums.begin());
+		v[1] = int(itRight - nums.begin() - 1);
+		return v;
+	}
+}
+};
+
+2.
