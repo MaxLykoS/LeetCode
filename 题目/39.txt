@@ -1,0 +1,34 @@
+class Solution {
+public:
+int Target;
+vector<int> Nums;
+vector<vector<int>> Ans;
+vector<int> Book;
+void Search(const int index,const int sum)
+{
+	if (sum == Target)
+	{
+		Ans.push_back(Book);
+		return;
+	}
+	else if (sum > Target)
+		return;
+	else if (sum < Target)
+	{
+		for (int i = index; i < Nums.size(); ++i)
+		{
+			Book.push_back(Nums[i]);
+			Search(i, sum + Nums[i]);
+			Book.pop_back();
+		}
+	}
+}
+vector<vector<int>> combinationSum(vector<int>& candidates, int target) 
+{
+	sort(candidates.begin(), candidates.end());
+	Target = target;
+	Nums = candidates;
+	Search(0,0);
+	return Ans;
+}
+};
