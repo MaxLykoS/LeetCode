@@ -1,0 +1,47 @@
+class Solution {
+public:
+vector<vector<int>> Ans;
+vector<int> Candidates;
+vector<int> Path;
+vector<bool> Book;
+int Target;
+void Search(const int INDEX, const int SUM)
+{
+	if (SUM == Target)
+	{
+		Ans.push_back(Path);
+	}
+	else if (SUM > Target)
+		return;
+	else
+	{
+		for (int i = INDEX; i < Candidates.size(); ++i)
+		{
+			if (SUM + Candidates[i] > Target)
+				break;
+			if (i > INDEX&& Candidates[i] == Candidates[i - 1])
+				continue;
+			if (Book[i] == true)
+			{
+				Book[i] = false;
+				Path.push_back(Candidates[i]);
+				Search(i + 1, SUM + Candidates[i]);
+				Book[i] = true;
+				Path.pop_back();
+			}
+		}
+	}
+
+}
+vector<vector<int>> combinationSum2(vector<int>& candidates, int target) 
+{
+	Candidates = candidates;
+	Target = target;
+	Book.resize(candidates.size(),true);//true is valid;
+
+	sort(Candidates.begin(), Candidates.end());
+
+	Search(0, 0);
+	return Ans;
+}
+};
