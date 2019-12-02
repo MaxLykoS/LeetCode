@@ -1,0 +1,43 @@
+class Solution {
+public:
+vector<int> spiralOrder(vector<vector<int>>& matrix)
+{
+	if (matrix.size() == 0 || matrix[0].size() == 0)
+		return vector<int>();
+	int size = matrix.size(), size0 = matrix[0].size();
+	vector<int> v(size * size0);
+	int dir[4][2] = { 0,1,1,0,0,-1,-1,0 };
+	int dirIndex = 0, ansIndex = 0;
+	int i = 0, j = 0;
+	vector<vector<bool>> book(size, vector<bool>(size0, false));
+	int count = size * size0;
+	while (count--)
+	{
+		v[ansIndex++] = matrix[i][j];
+		book[i][j] = true;
+		int newI = i + dir[dirIndex][0], newJ = j + dir[dirIndex][1];
+		if (newJ < size0 && newJ >= 0
+			&& newI < size && newI >= 0)
+		{
+			if (book[newI][newJ] == false)
+			{
+				i = newI;
+				j = newJ;
+			}
+			else if (book[newI][newJ] == true)
+			{
+				dirIndex = (dirIndex + 1) % 4;
+				i += dir[dirIndex][0];
+				j += dir[dirIndex][1];
+			}
+		}
+		else
+		{
+			dirIndex = (dirIndex + 1) % 4;
+			i += dir[dirIndex][0];
+			j += dir[dirIndex][1];
+		}
+	}
+	return v;
+}
+};
