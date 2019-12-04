@@ -34,6 +34,8 @@ bool canJump(vector<int>& nums)
 };
 
 2.
+class Solution {
+public:
 bool canJump(vector<int>& nums) 
 {
 	int k = 0;
@@ -44,3 +46,4 @@ bool canJump(vector<int>& nums)
 	}
 	return true;
 }
+};
