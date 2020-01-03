@@ -1,0 +1,30 @@
+class Solution {
+public:
+vector<vector<int>> generateMatrix(int n) 
+{
+	int end = n * n;
+	vector<vector<int>> vv(n);
+	for (auto &v : vv)
+		v = vector<int>(n);
+	int dir[4][2] = { {0,1},{1,0},{0,-1},{-1,0} };
+	int d = 0;
+	int x = 0, y = 0,wx,wy;
+	vv[0][0] = 1;
+	if (n == 1)
+		return vv;
+	for (int i = 2; i <= end; ++i)
+	{
+		wx = x + dir[d%4][0];
+		wy = y + dir[d%4][1];
+		if ((wx<0||wx>=n||wy<0||wy>=n)||vv[wx][wy] != 0)
+		{
+			++d;
+		}
+		x = x + dir[d % 4][0];
+		y = y + dir[d % 4][1];
+		vv[x][y] = i;
+	}
+
+	return vv;
+}
+};

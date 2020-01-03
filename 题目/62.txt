@@ -1,0 +1,22 @@
+class Solution {
+public:
+int uniquePaths(int m, int n) 
+{
+	vector<vector<int>> vv(n);
+	for (auto& v : vv)
+		v = vector<int>(m);
+	for (int i = 0; i < m; ++i)
+		vv[0][i] = 1;
+	for (int i = 0; i < n; ++i)
+		vv[i][0] = 1;
+	for(int i=0;i<n;++i)
+		for (int j = 0; j < m; ++j)
+		{
+			if (i != 0 && j != 0)
+			{
+				vv[i][j] = vv[i - 1][j] + vv[i][j - 1];
+			}
+		}
+	return vv[n - 1][m - 1];
+}
+};
