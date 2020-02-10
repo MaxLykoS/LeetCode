@@ -1,0 +1,42 @@
+class Solution 
+{
+    public:
+struct row
+{
+	row(int _r, int _num)
+	{
+		r = _r;
+		num = _num;
+	}
+	int r;
+	int num;
+};
+static bool Compare(row a, row b)
+{
+	if (a.num != b.num)
+		return a.num < b.num;
+	else
+		return a.r < b.r;
+}
+vector<int> kWeakestRows(vector<vector<int>>& mat, int k)
+{
+	vector<row> v;
+	for (int i = 0; i < mat.size(); ++i)
+	{
+		int cnt1 = 0;
+		for (int j : mat[i])
+			if (j == 1)
+				cnt1++;
+            else
+                break;
+		v.push_back(row(i, cnt1));
+	}
+	sort(v.begin(), v.end(), Compare);
+	vector<int> ans;
+	for (int i = 0; i < k; i++)
+	{
+		ans.push_back(v[i].r);
+	}
+	return ans;
+}
+};

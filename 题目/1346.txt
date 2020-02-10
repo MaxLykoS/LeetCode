@@ -1,0 +1,32 @@
+class Solution {
+public:
+bool checkIfExist(vector<int>& arr) 
+{
+	vector<bool> vp(1001, false);
+	vector<bool> vn(1001, false);
+	int ocnt = 0;
+	for (int i : arr)
+	{
+		if (i == 0)
+		{
+			ocnt++;
+			if (ocnt == 2)
+				return true;
+		}
+		else if (i>0)
+			vp[i] = true;
+		else
+			vn[-i] = true;
+	}
+	for (int i : arr)
+	{
+		if (abs(i) > 500)
+			continue;
+		else if (i>=0&& vp[i * 2] == true)
+			return true;
+		else if (i<0 && vn[-i * 2]==true)
+			return true;
+	}
+	return false;
+}
+};
