@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findSpecialInteger(std::vector<int>& arr)
+    {
+        int cnt = 0;
+        int t = arr[0];
+        int size = arr.size();
+        for (auto i : arr)
+        {
+            if (i == t)
+            {
+                ++cnt;
+                if (cnt * 4 > size)
+                    return i;
+            }
+            else
+            {
+                t = i;
+                cnt = 1;
+            }
+        }
+        return arr[0];
+    }
+};
