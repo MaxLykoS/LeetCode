@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> luckyNumbers (vector<vector<int>>& matrix) 
+    {
+        auto res = std::vector<int>();
+        auto minr = std::vector<int>(matrix.size(), 0);
+        auto maxc = std::vector<int>(matrix[0].size(), 0);
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            minr[i] = *std::min_element(matrix[i].begin(), matrix[i].end());
+        }
+        for (int i = 0; i < matrix[0].size(); i++)
+        {
+            int maxv = INT_MIN;
+            for (int j = 0; j < matrix.size(); j++)
+            {
+                maxv = std::max(maxv, matrix[j][i]);
+            }
+            maxc[i] = maxv;
+        }
+        for (int i = 0;i<matrix.size();i++)
+        {
+            for (int j = 0; j < matrix[0].size(); j++)
+            {
+                if (matrix[i][j] == minr[i] && matrix[i][j] == maxc[j])
+                    res.emplace_back(matrix[i][j]);
+            }
+        }
+        return res;
+    }
+};

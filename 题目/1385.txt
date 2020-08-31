@@ -1,0 +1,35 @@
+class Solution {
+public:
+    const int bs(const std::vector<int>& v, const int t)
+    {
+        if (t < v.front())
+            return v.front();
+        if (t > v.back())
+            return v.back();
+        int left = 0;
+        int right = v.size()-1;
+        while (left <= right)
+        {
+            int mid = (left + right) / 2;
+            if (t == v[mid])
+                return v[mid];
+            if (t > v[mid])
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return std::abs(v[left] - t) > std::abs(v[right] - t) ? v[right] : v[left];
+    }
+    int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) 
+    {
+        int cnt = 0;
+        std::sort(arr2.begin(), arr2.end());
+        std::sort(arr1.begin(), arr1.end());
+        for (const auto& i : arr1)
+        {
+            auto t = bs(arr2, i);
+            cnt += std::abs(i - t) > d ? 1 : 0;
+        }
+        return cnt;
+    }
+};

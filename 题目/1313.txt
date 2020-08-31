@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> decompressRLElist(vector<int>& nums) 
+    {
+        size_t size = 0;
+        for (size_t i = 0; i < nums.size(); i += 2)
+        {
+            size += nums[i];
+        }
+        auto re = std::vector<int>(size);
+        auto index = 0;
+        for (size_t i = 0; i < nums.size(); i+=2)
+        {
+            while (nums[i]--)
+            {
+                re[index++] = nums[i + 1];
+            }
+        }
+        return re;
+    }
+};

@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> smallerNumbersThanCurrent(vector<int>& nums) 
+    {
+        auto sorted = nums;
+        std::sort(sorted.begin(),sorted.end());
+        auto book = std::vector<int>(101,0);
+        book[sorted[0]] = 0;
+        for (int i = 1; i < sorted.size(); i++)
+        {
+            if (sorted[i] != sorted[i - 1])
+            {
+                book[sorted[i]] = i;
+            }
+        }
+        for (int i = 0; i < nums.size(); i++)
+        {
+            nums[i] = book[nums[i]];
+        }
+        return nums;
+    }
+};

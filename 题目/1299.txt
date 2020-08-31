@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> replaceElements(vector<int>& arr) 
+    {
+        auto book = std::vector<int>(arr.size());
+        int _max = arr.back();
+        for (int i = arr.size()-1; i >=0; i--)
+        {
+            book[i] = _max;
+            _max = std::max(_max, arr[i]);
+        }
+        book[book.size() - 1] = -1;
+        return book;
+    }
+};
