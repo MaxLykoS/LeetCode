@@ -1,0 +1,27 @@
+class Solution {
+public:
+    const int Sum(int n)
+    {
+        int sum = 0;
+        while (n)
+        {
+            sum += n%10;
+            n /= 10;
+        }
+        return sum;
+    }
+    int countLargestGroup(int n) 
+    {
+        auto book = std::vector<int>(37, 0);
+        for (int i = 1; i <= n; i++)
+        {
+            book[Sum(i)]++;
+        }
+        int cnt = 0;
+        int maxv = *std::max_element(book.begin(), book.end());
+        for (const auto& i : book)
+            if (i == maxv)
+                cnt++;
+        return cnt;
+    }
+};

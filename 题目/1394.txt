@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int findLucky(vector<int>& arr) 
+    {
+        auto book = std::vector<int>(501,0);
+        for (const auto& i : arr)
+        {
+            book[i]++;
+        }
+        for (int i = book.size()-1; i > 0; i--)
+        {
+            if (book[i] == i)
+                return i;
+        }
+        return -1;
+    }
+};

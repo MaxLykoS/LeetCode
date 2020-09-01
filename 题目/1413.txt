@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minStartValue(vector<int>& nums) 
+    {
+        int minv = INT_MAX;
+        int t = 0;
+        for (const auto& i : nums)
+        {
+            t += i;
+            minv = std::min(minv, t);
+        }
+        if (minv >= 1)
+            return 1;
+        else
+            return std::abs(minv) + 1;
+    }
+};
