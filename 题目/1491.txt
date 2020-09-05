@@ -1,0 +1,17 @@
+class Solution {
+public:
+    double average(vector<int>& salary) 
+    {
+        double average = 0.0;
+        for (auto& i : salary)
+            i /= 1000.0;
+        const double maxd = *std::max_element(salary.begin(), salary.end());
+        const double mind = *std::min_element(salary.begin(), salary.end());
+        for (const auto& i : salary)
+        {
+            if (i != maxd && i != mind)
+                average += i;
+        }
+        return average / ((double)salary.size() - 2.0) * 1000.0;
+    }
+};

@@ -1,0 +1,20 @@
+class Solution {
+public:
+    std::vector<std::vector<int>> ret = std::vector<std::vector<int>>();
+    void DFS(const int& start,std::vector<int> &path,const std::vector<int>& nums)
+    {
+        ret.emplace_back(path);
+        for (int i = start; i < nums.size(); i++)
+        {
+            path.emplace_back(nums[i]);
+            DFS(i + 1, path, nums);
+            path.pop_back();
+        }
+    }
+    vector<vector<int>> subsets(vector<int>& nums) 
+    {
+        auto path = std::vector<int>();
+        DFS(0, path, nums);
+        return ret;
+    }
+};

@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool canBeEqual(vector<int>& target, vector<int>& arr) 
+    {
+        auto v1 = std::vector<int>(1001, 0);
+        auto v2 = v1;
+        for (const auto& i : target)
+            v1[i]++;
+        for (const auto& i : arr)
+            v2[i]++;
+        for (int i = 1; i < v1.size(); i++)
+            if (v1[i] != v2[i])
+                return false;
+        return true;
+    }
+};

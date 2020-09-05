@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool containsPattern(vector<int>& arr, int m, int k) 
+    {
+        if (m * k > arr.size())
+        {
+            return false;
+        }
+        for (int s = 0; s < arr.size() - m; s++)
+        {
+            bool fnd = true;
+            for (int i = 1; i < k; i++)
+            {      
+                for (int offset = 0; offset < m; offset++)
+                {
+                    if (arr[s + offset] != arr[s + offset + i * m])
+                    {
+                        fnd = false;
+                        break;
+                    }
+                }
+                if (!fnd)
+                    break;
+            }
+            if (fnd)
+                return true;
+        }
+        return false;
+    }
+};

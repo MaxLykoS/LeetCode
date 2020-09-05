@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> mostVisited(int n, vector<int>& rounds) 
+    {
+        auto ret = std::vector<int>();
+    auto book = std::vector<int>(n+1, 0);
+    for (int i = 1; i < rounds.size(); i++)
+    {
+        for (int s = rounds[i - 1]; s != rounds[i];)
+        {
+            book[s]++;
+            s++;
+            if (s ==n+1)
+                s = 1;
+        }
+    }
+    book[rounds.back()]++;
+    int maxi = *std::max_element(book.begin(), book.end());
+    for (int i = 1; i < n+1; i++)
+        if (maxi == book[i])
+            ret.emplace_back(i);
+    return ret;
+    }
+};

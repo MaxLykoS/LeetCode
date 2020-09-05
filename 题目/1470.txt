@@ -1,0 +1,14 @@
+class Solution {
+public:
+    vector<int> shuffle(vector<int>& nums, int n) 
+    {
+        auto ret = std::vector<int>(2*n);   
+        int f1 = 0, f2 = 0;
+        for (int i = 0; i < nums.size()-1; i += 2)
+        {  
+            ret[i] = nums[f1++];
+            ret[i + 1] = nums[f2++ + n];
+        }
+        return ret;
+    }
+};

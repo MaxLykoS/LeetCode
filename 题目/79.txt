@@ -1,0 +1,42 @@
+class Solution 
+{
+public:
+    constexpr static int dir[4][2] = { -1,0, 0,1, 1,0, 0,-1 };
+    bool DFS(int x, int y,int chari, std::vector<std::vector<char>>& board,const std::string& word)
+    {
+        if (chari >= word.size())
+        {
+            return true;
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            int nx = x + dir[i][0];
+            int ny = y + dir[i][1];
+            if (nx >= 0 && nx < board.size() && ny >= 0 && ny < board[0].size()&&board[nx][ny]==word[chari]&&board[nx][ny]!='0')
+            {
+                char c = board[nx][ny];
+                board[nx][ny] = '0';
+                if (DFS(nx, ny, chari + 1, board, word))
+                    return true;
+                board[nx][ny] = c;
+            }
+        }
+        return false;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) 
+    {
+        for(int i = 0;i<board.size();i++)
+            for(int j = 0;j<board[0].size();j++)
+                if (board[i][j] == word[0])
+                {
+                    char c = board[i][j];
+                    board[i][j] = '0';
+                    if(DFS(i, j, 1, board, word))
+                        return true;
+                    else
+                        board[i][j] = c;
+                }
+        return false;
+    }
+};
