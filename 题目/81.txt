@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) 
+    {
+        int offset = 0;
+        for(int i = 1;i<nums.size();i++)
+            if (nums[i] < nums[i - 1])
+            {
+                offset = i;
+                break;
+            }
+        int left = 0;
+        int right = nums.size() - 1;
+        int mid;
+        while (left <= right)
+        {
+            mid = (left + right) / 2;
+            const int midv = nums[(mid + offset) % nums.size()];
+            if (midv == target)
+                return true;
+            else if (target > midv)
+            {
+                int i;
+                for (i = mid + 1; i < nums.size() && nums[(i + offset) % nums.size()] == nums[(i - 1 + offset) % nums.size()]; i++);
+                left = i;
+            }
+            else
+            {
+                int i;
+                for (i = mid - 1; i >= 0 && nums[(i + offset) % nums.size()] == nums[(i + 1 + offset) % nums.size()]; i--);
+                right = i;
+            }
+        }
+        return false;
+    }
+};
