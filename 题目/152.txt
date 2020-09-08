@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) 
+    {
+        if (nums.empty())
+            return 0;
+        else if (nums.size() == 1)
+            return nums[0];
+        else
+        {
+            auto dpmaxCur = nums[0], dpmaxLast = dpmaxCur;
+            auto dpminCur = nums[0], dpminLast = dpminCur;
+            auto maxv = nums[0];
+            for (int i = 1; i < nums.size(); i++)
+            {
+                dpminCur = std::min(nums[i],std::min(nums[i] * dpminLast, nums[i] * dpmaxLast));
+                dpmaxCur = std::max(nums[i],std::max(nums[i] * dpmaxLast, nums[i] * dpminLast));
+                dpminLast = dpminCur;
+                dpmaxLast = dpmaxCur;
+                maxv = std::max(maxv, dpmaxCur);
+            }
+            return maxv;
+        }
+    }
+};
