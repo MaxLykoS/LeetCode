@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) 
+    {
+        auto ret = std::vector<int>();
+        int cnt = 0;
+        if (nums.empty())
+        {
+            return ret;
+        }
+        if (nums.size() == 1)
+        {
+            ret.emplace_back(nums.front());
+            return ret;
+        }
+        std::sort(nums.begin(), nums.end());
+        int times = 1;
+        float flag = (float)nums.size() / 3.0;
+        if (nums[1] != nums[0] && 1 > flag)
+        {
+            ret.emplace_back(nums[0]);
+            cnt++;
+        }
+        for (int i = 1; i < nums.size(); i++)
+        {
+            if (nums[i] == nums[i - 1])
+            {
+                times++;
+            }
+            else
+            {
+                times = 1;
+            }
+            if (times > flag)
+            {
+                cnt++;
+                ret.emplace_back(nums[i]);
+                if(cnt==2)
+                    return ret;
+                times = 1;
+                for (i = i + 1; i < nums.size() && nums[i] == nums[i - 1]; i++);
+            }
+        }
+        return ret;
+    }
+};

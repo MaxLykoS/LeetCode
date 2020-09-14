@@ -1,0 +1,42 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) 
+    {
+        auto b = board;
+        auto dir = std::vector<std::vector<int>>();
+        dir.emplace_back(std::vector<int>({ 1,0 }));
+        dir.emplace_back(std::vector<int>({ 1,1 }));
+        dir.emplace_back(std::vector<int>({ 0,1 }));
+        dir.emplace_back(std::vector<int>({ -1,1 }));
+        dir.emplace_back(std::vector<int>({ -1,0 }));
+        dir.emplace_back(std::vector<int>({ -1,-1 }));
+        dir.emplace_back(std::vector<int>({ 0,-1 }));
+        dir.emplace_back(std::vector<int>({ 1,-1 }));
+        auto check = [](int x, int y, const std::vector<std::vector<int>>& b)
+        {
+            return (x < b.size() && x >= 0 && y < b[0].size() && y >= 0);
+        };
+        for (int i = 0; i < board.size(); i++)
+            for (int j = 0; j < board[0].size(); j++)
+            {
+                int liveCnt = 0;
+                for (int dd = 0; dd < dir.size(); dd++)
+                {
+                    int nx = i + dir[dd][0];
+                    int ny = j + dir[dd][1];
+                    if (check(nx, ny, b)&&b[nx][ny]==1)
+                        liveCnt++;
+                }
+                if (b[i][j] == 1)
+                {
+                    if (liveCnt < 2 || liveCnt>3)
+                        board[i][j] = 0;
+                }
+                else
+                {
+                    if (liveCnt == 3)
+                        board[i][j] = 1;
+                }
+            }
+    }
+};

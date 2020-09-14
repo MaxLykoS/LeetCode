@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) 
+    {
+        auto ret = std::vector<std::string>();
+        if(nums.empty())
+            return ret;
+        if (nums.size() == 1)
+        {
+            ret.emplace_back(std::to_string(nums.front()));
+            return ret;
+        }
+        int start = nums.front();
+        int end = nums.front();
+        for (int i = 1; i < nums.size(); i++)
+        {
+            if (nums[i] == end + 1)
+            {
+                end++;
+            }
+            else
+            {
+                ret.emplace_back(start != end ? std::to_string(start) + "->" + std::to_string(end) : std::to_string(start));
+                start = nums[i];
+                end = start;
+            }
+        }
+        ret.emplace_back(start!=end?std::to_string(start) + "->" + std::to_string(end):std::to_string(start));
+        return ret;
+    }
+};

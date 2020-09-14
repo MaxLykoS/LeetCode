@@ -1,0 +1,33 @@
+class Solution 
+{
+public:
+    std::vector<int> track = std::vector<int>();
+    void DFS(int start,const int& k, const int& n,std::vector<std::vector<int>>& ret)
+    {
+        if (track.size() == k)
+        {
+            int sum = 0;
+            for (const auto& i : track)
+                sum += i;
+            if (sum == n)
+            {
+                ret.push_back(std::vector<int>(track));
+                return;
+            }
+        }
+
+        for (int i = start; i <= 9; i++)
+        {
+            track.emplace_back(i);
+            DFS(i + 1, k, n, ret);
+            track.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum3(int k, int n) 
+    {
+        auto ret = std::vector<std::vector<int>>();
+        DFS(1, k, n, ret);
+        return ret;
+    }
+};

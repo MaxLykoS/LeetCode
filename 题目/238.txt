@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) 
+    {
+        auto ret = std::vector<int>(nums.size());
+        auto left = std::vector<int>(nums.size(),1);
+        auto right = left;
+        for (int i = 1,j = nums.size()-2; i < nums.size(); i++,j--)
+        {
+            left[i] = nums[i-1] * left[i - 1];
+            right[j] = nums[j + 1] * right[j + 1];
+        }
+        for (int i = 0; i < ret.size(); i++)
+        {
+            ret[i] = left[i] * right[i];
+        }
+        return ret;
+    }
+};
