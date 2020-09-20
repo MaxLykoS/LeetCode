@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int arrayNesting(vector<int>& nums) 
+    {
+        int maxLen = 0;
+        auto book = std::vector<bool>(nums.size(),false);
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (book[i] == false)
+            {
+                int len = 0;
+                int start = i;
+                while (true)
+                {
+                    if (book[nums[start]] == false)
+                    {
+                        len++;
+                        book[nums[start]] = true;
+                        start = nums[start];
+                    }
+                    else
+                    {
+                        maxLen = std::max(maxLen, len);
+                        break;
+                    }
+                }
+            }
+        }
+        return maxLen;
+    }
+};

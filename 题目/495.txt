@@ -1,0 +1,25 @@
+static const auto _____ = []()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr); 
+    return nullptr;
+}();
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) 
+    {
+        auto len = 0;
+        int oldEnd = 0;
+        int newEnd = 0;
+        for (int i = 0; i < timeSeries.size(); i++)
+        {
+            newEnd = timeSeries[i] + duration;
+            if (timeSeries[i] >= oldEnd)
+                len += newEnd - timeSeries[i];
+            else
+                len += newEnd - oldEnd;
+            oldEnd = newEnd;
+        }
+        return len;
+    }
+};
