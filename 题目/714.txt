@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) 
+    {
+        std::ios::sync_with_stdio(false);
+        auto dphave = std::vector<int>(prices.size());
+        auto dpnone = dphave;
+        dphave[0] = -prices[0];
+        dpnone[0] = 0;
+        for (int i = 1; i < prices.size(); i++)
+        {
+            dphave[i] = std::max(dphave[i - 1], dpnone[i - 1] - prices[i]);
+            dpnone[i] = std::max(dpnone[i - 1], dphave[i] + prices[i] - fee);
+        }
+        return dpnone.back();
+    }
+};
