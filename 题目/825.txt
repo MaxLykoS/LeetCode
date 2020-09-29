@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int numFriendRequests(vector<int>& ages) 
+    {
+        int counts[121];
+        int res = 0;
+        memset(counts,0,sizeof(counts));
+        for(int age : ages){
+            ++counts[age];
+        }
+        for(int A = 0; A <= 120; ++A){
+            for(int B = 0; B <= A; ++B){
+                if((B <=( 0.5 * A + 7)) || (B > 100 && A < 100) || counts[A]==0 || counts[B]==0){
+                    continue;
+                }
+                res += counts[A] * counts[B];
+                if(A == B){
+                    res -= counts[A];
+                }
+            }
+        }
+        return res;
+    }
+};
