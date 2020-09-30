@@ -1,0 +1,31 @@
+public:
+    int lenLongestFibSubseq(vector<int>& A) 
+    {
+        auto len = A.size();
+        auto indexHash = std::unordered_map<int, int>();
+        auto dp = std::vector<std::vector<int>>(len, std::vector<int>(len,0));
+        auto maxCnt = 0;
+        for (int i = 0; i < len; i++)
+        {
+            indexHash[A[i]] = i;
+        }
+
+        for (int i = 0; i < len-1; i++)
+        {
+            for (int j = i+1; j < len; j++)
+            {
+                int diff = A[j] - A[i];
+                if (diff >= A[i])
+                    break;
+
+                auto it = indexHash.find(diff);
+                if (it != indexHash.end()&&it->second<i)
+                {
+                    dp[i][j] = dp[it->second][i] + 1;
+                    maxCnt = std::max(maxCnt, dp[i][j]);
+                }
+            }
+        }
+        return (maxCnt==0?0:maxCnt+2);
+    }
+};
