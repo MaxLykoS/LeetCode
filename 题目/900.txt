@@ -1,0 +1,56 @@
+class RLEIterator
+{
+public:
+    RLEIterator(std::vector<int>& A) 
+        :
+        buf(A),
+        startIndex(0)
+    {
+        // 偶数为个数，i+1为值
+        for (int i = 0; i < buf.size(); i += 2)
+        {
+            if (buf[i] != 0)
+            {
+                startIndex = i;
+                break;
+            }
+        }
+    }
+
+    int next(int n) 
+    {
+        while (n)
+        {
+            if (buf[startIndex] == 0)
+            {
+                int nextIndex = startIndex;
+                for (; nextIndex < buf.size() && buf[nextIndex] == 0; nextIndex += 2);
+                if (nextIndex >= buf.size())
+                    return -1;
+                startIndex = nextIndex;
+            }
+
+            if (buf[startIndex] >= n)
+            {
+                buf[startIndex] -= n;
+                n = 0;
+                return buf[startIndex + 1];
+            }
+            else
+            {
+                n -= buf[startIndex];
+                buf[startIndex] = 0;
+            }
+        }
+        return -1;
+    }
+private:
+    std::vector<int> buf;
+    int startIndex;
+};
+
+/**
+ * Your RLEIterator object will be instantiated and called as such:
+ * RLEIterator* obj = new RLEIterator(A);
+ * int param_1 = obj->next(n);
+ */
