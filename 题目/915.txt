@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int partitionDisjoint(vector<int>& A) 
+    {
+        int len = A.size();
+        if (len == 2) return 1;
+        auto maxa = std::vector<int>(A.size()); maxa.front() = A.front();
+        auto mina = std::vector<int>(A.size()); mina.back() = A.back();
+        for (int i = 1, j = len - 2; i < A.size(); i++, j--)
+        {
+            maxa[i] = std::max(maxa[i - 1], A[i]);
+            mina[j] = std::min(mina[j + 1], A[j]);
+        }
+        for (int i = 0; i < len-1; i++)
+        {
+            if (maxa[i] <= mina[i+1])
+            {
+                return (i + 1);
+            }
+        }
+        return -1;
+    }
+};
