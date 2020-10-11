@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) 
+    {
+        if (deck.size() == 1)
+        {
+            return deck;
+        }
+        std::sort(deck.begin(), deck.end(),std::greater<int>());
+        auto q = std::queue<int>();
+        q.push(deck.front());
+        for (int i = 1; i < deck.size(); i++)
+        {
+            int front = q.front();
+            q.pop();
+            q.push(front);
+            q.push(deck[i]);
+        }
+        auto index = deck.size()-1;
+        while (!q.empty())
+        {
+            deck[index--] = q.front();
+            q.pop();
+        }
+        return deck;
+    }
+};
