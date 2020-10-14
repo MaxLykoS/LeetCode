@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool canReorderDoubled(vector<int>& A) 
+    {
+        auto book = std::unordered_map<int, int>();
+        for (const auto& i : A)
+            book[i]++;
+        std::sort(A.begin(), A.end(), [](int a, int b) {return std::abs(a) < std::abs(b); });
+        for (auto& i : A)
+        {
+            if (book[i] != 0)
+            {
+                auto target1 = book.find(2 * i);
+                if (target1 == book.end() || target1->second == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    book[i]--;
+                    target1->second--;
+                }
+            }
+        }
+        return(true);
+    }
+};

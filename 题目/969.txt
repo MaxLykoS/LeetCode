@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> pancakeSort(vector<int>& arr) 
+    {
+        auto ret = std::vector<int>();
+        for (int i = arr.size()-1; i > 0; i--)
+        {
+            auto maxI = std::max_element(arr.begin(),arr.begin()+i+1) - arr.begin();
+            ret.emplace_back(maxI + 1);
+            std::reverse(arr.begin(), arr.begin() + maxI + 1);
+            ret.emplace_back(i+1);
+            std::reverse(arr.begin(), arr.begin() + i+1);
+        }
+        return ret;
+    }
+};
