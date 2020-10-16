@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maxTurbulenceSize(vector<int>& A) 
+    {
+        if (A.size() == 1)
+            return 1;
+        auto maxLen = 1;
+        bool flag1 = false;
+        for (int i = 1,curLen1 = 1,curLen2 = 1; i < A.size(); i++)  
+        {
+            flag1 = (i % 2 == 1);
+            curLen1 = (flag1 && A[i] < A[i - 1]) || (!flag1 && A[i] > A[i - 1]) ? curLen1 + 1 : 1;//1>0<1
+            curLen2 = (flag1 && A[i] > A[i - 1]) || (!flag1 && A[i] < A[i - 1]) ? curLen2 + 1 : 1;//0<1>0
+            maxLen = std::max(maxLen,std::max(curLen1,curLen2));
+        }
+        return maxLen;
+    }
+};
