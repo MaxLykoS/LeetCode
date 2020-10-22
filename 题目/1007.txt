@@ -1,0 +1,41 @@
+class Solution {
+public:
+    const int Check(const std::vector<int>& A, const std::vector<int>& B)
+    {
+        int ret1 = 0;
+        for (int i = 0; i < A.size(); i++)
+        {
+            if (A[i] != A[0])
+            {
+                if (B[i] == A[0])
+                    ret1++;
+                else
+                {
+                    ret1 = INT_MAX;
+                    break;
+                }
+            }
+        }
+
+        int ret2 = 0;
+        for (int i = 0; i < A.size(); i++)
+        {
+            if (A[i] != B[0])
+            {
+                if (B[i] == B[0])
+                    ret2++;
+                else
+                {
+                    ret2 = INT_MAX;
+                    break;
+                }
+            }
+        }
+        return std::min(ret1,ret2);
+    }
+    int minDominoRotations(vector<int>& A, vector<int>& B) 
+    {
+        auto ret = std::min(Check(A, B), Check(B, A));
+        return(ret == INT_MAX ? -1 : ret);
+    }
+};

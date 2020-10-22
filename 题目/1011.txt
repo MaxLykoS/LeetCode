@@ -1,0 +1,31 @@
+class Solution {
+public:
+    const bool Possible(const int capacity ,const std::vector<int>& weights,const int daysLimit)
+    {
+        int days = 1, sum = 0;
+        for (const auto& i : weights)
+        {
+            if (sum + i > capacity)
+            {
+                days++;
+                sum = 0;
+            }
+            sum += i;
+        }
+        return days <= daysLimit;
+    }
+    int shipWithinDays(vector<int>& weights, int D) 
+    {
+        int left = *std::max_element(weights.begin(),weights.end());
+        int right = std::accumulate(weights.begin(),weights.end(),0);
+        while (left<right)
+        {
+            int mid = (left + right) / 2;
+            if (Possible(mid, weights, D))
+                right = mid;
+            else
+                left = mid + 1;
+        }
+        return (left);
+    }
+};

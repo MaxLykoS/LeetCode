@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& A) 
+    {
+        auto maxi = A[0]+0;
+        auto ans = 0;
+        for (auto j = 1; j < A.size(); ++j)
+        {
+            ans = std::max(ans, maxi + A[j] - j);
+            maxi = std::max(maxi, A[j] + j);
+        }
+        return (ans);
+    }
+};
