@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int maxSumTwoNoOverlap(vector<int>& A, int L, int M) 
+    {
+        auto suml = std::vector<int>();
+        auto summ = suml;
+        // suml[i]  i表示左起点，i+L表示右终点
+        int sum = 0;
+        for (int i = 0; i < L; i++)
+            sum += A[i];
+        suml.emplace_back(sum);
+        for (int i = 0; i + L < A.size(); i++)
+        {
+            sum = sum - A[i] + A[i + L];
+            suml.emplace_back(sum);
+        }
+        sum = 0;
+        for (int i = 0; i < M; i++)
+            sum += A[i];
+        summ.emplace_back(sum);
+        for (int i = 0; i + M < A.size(); i++)
+        {
+            sum = sum - A[i] + A[i + M];
+            summ.emplace_back(sum);
+        }
+
+        int ans = 0;
+        for (int i = 0; i < suml.size(); i++)
+        {
+            int rightl = i + L;
+            for (int j = 0; j < summ.size(); j++)
+            {
+                int rightm = j + M - 1;
+                if (suml[i] + summ[j] > ans)
+                {
+                    if ((j <= i && rightm >= i) ||
+                        (j >= i && rightm <= rightl) ||
+                        (j <= rightl && rightm >= rightl))
+                        continue;
+                    ans = suml[i] + summ[j];
+                }
+            }
+        }
+        return (ans);
+    }
+};
