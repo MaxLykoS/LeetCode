@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) 
+    {
+        auto book = std::unordered_map<int, int>();
+        auto times = std::unordered_set<int>();
+        for (const auto& i : arr)
+        {
+            book[i]++;
+        }
+        for (auto it = book.begin(); it != book.end(); it++)
+        {
+            if (times.find(it->second) != times.end())
+                return false;
+            else
+                times.insert(it->second);
+        }
+        return true;
+    }
+};
