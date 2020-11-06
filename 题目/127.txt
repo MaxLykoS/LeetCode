@@ -1,0 +1,112 @@
+class Solution
+{
+private:
+    bool Cmp(const std::string& a, const std::string& b)
+    {
+        if (a.size() != b.size())
+            return false;
+        bool different = false;
+        for (int i = 0; i < a.size(); i++)
+        {
+            if (a[i] != b[i])
+            {
+                if (different == false)
+                    different = true;
+                else
+                    return false;
+            }
+        }
+        return true;
+    }
+    class Node
+    {
+    public:
+        int index;
+        int steps;
+        const std::string& word;
+        std::vector<Node*> edges;
+    public:
+        Node(int i,std::string& w)
+            :
+            index(i),steps(0),word(w), edges() 
+        {}
+        void Run(const Node* n)
+        {
+            steps = n->steps + 1;
+        }
+        Node(const Node&) = delete;
+        Node& operator=(const Node&) = delete;
+    };
+    std::vector<Node*> nodes;
+    std::vector<bool> book;
+    std::queue<Node*> Q;
+public:
+    Solution()
+        :
+        nodes(),book(),Q()
+    {
+        
+    }
+    ~Solution()
+    {
+        for (Node* n: nodes)
+        {
+            delete(n);
+        }
+        nodes.clear();
+    }
+    int ladderLength(std::string beginWord, std::string endWord, std::vector<std::string>& wordList)
+    {
+        wordList.emplace_back(beginWord);
+        Node* end = nullptr;
+        for (int i = 0;i<wordList.size();i++)
+        {
+            nodes.emplace_back(new Node(i, wordList[i]));
+            book.emplace_back(false);
+            if (wordList[i] == endWord)
+                end = nodes.back();
+        }
+        if (end == nullptr)
+            return 0;
+        Node* start = nodes.back();
+        for (Node* n : nodes)
+        {
+            for (Node* i : nodes)
+            {
+                if (i == n)
+                    continue;
+                else
+                {
+                    if (Cmp(n->word, i->word))
+                    {
+                        n->edges.emplace_back(i);
+                    }
+                }
+            }
+        }
+
+        Q.push(start);
+        book[start->index] = true;
+        start->Run(start);
+        while (!Q.empty())
+        {
+            Node* n = Q.front();
+            Q.pop();
+            if (n == end)
+                return n->steps;
+            else
+            {
+                for (Node* i : n->edges)
+                {
+                    if (book[i->index] == false)
+                    {
+                        book[i->index] = true;
+                        i->Run(n);
+                        Q.push(i);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+};

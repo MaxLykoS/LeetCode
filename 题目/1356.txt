@@ -1,0 +1,35 @@
+class Solution 
+{
+public:
+    int Count(int val)
+    {
+        if (val == 0)
+            return 0;
+        int cnt = 1;
+        while (val!=1&&val!=0)
+        {
+            if (val % 2 == 1)
+                ++cnt;
+            val /= 2;
+        }
+        return cnt;
+    }
+    vector<int> sortByBits(vector<int>& arr) 
+    {
+        auto book = std::vector<int>(10001,0);
+        for (const auto& i : arr)
+        {
+            book[i] = Count(i);
+        }
+        std::sort(arr.begin(), arr.end(),[&](const int& a, const int& b)
+            {
+                if (book[a] < book[b])
+                    return true;
+                else if (book[a] == book[b])
+                    return a < b;
+                else 
+                    return false;
+            });
+        return arr;
+    }
+};
