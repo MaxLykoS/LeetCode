@@ -1,0 +1,48 @@
+class Solution
+{
+private:
+    const int Sqrt(const int& x, const int& y)
+    {
+        return x * x + y * y;
+    }
+public:
+    struct Node
+    {
+    public:
+        int Dis;
+        int Index;
+        Node(const int dis, const int _index)
+            :
+            Dis(dis), Index(_index)
+        {
+        
+        }
+    };
+    Solution()
+    {
+        
+    }
+    ~Solution()
+    {
+
+    }
+    std::vector<std::vector<int>> kClosest(std::vector<std::vector<int>>& points, const int K) 
+    {
+        auto book = std::vector<Node>();
+        for (int i = 0;i<points.size();i++)
+        {
+            book.emplace_back(Node(Sqrt(points[i][0], points[i][1]),i));
+        }
+        std::sort(book.begin(), book.end(), [](const Node& a, const Node& b)
+            {
+                return a.Dis < b.Dis;
+            });
+        auto ans = std::vector<std::vector<int>>(K, std::vector<int>(2));
+        for (int i = 0; i < K; i++)
+        {
+            ans[i][0] = points[book[i].Index][0];
+            ans[i][1] = points[book[i].Index][1];
+        }
+        return ans;
+    }
+};
