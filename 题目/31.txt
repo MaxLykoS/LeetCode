@@ -1,22 +1,33 @@
-class Solution {
-public:
-void nextPermutation(vector<int>& nums) 
+class Solution 
 {
-	int n = nums.size();
-	int i, j;
-	for (i = n - 2; i >= 0; --i) 
-	{
-		if (nums[i] < nums[i + 1])
-			break;
-	}
-	//对应于两个特例，需要判断i是否越界
-	if (i >= 0) 
-	{
-		for (j = n - 1; j > i; --j) 
-			if (nums[j] > nums[i]) 
-				break;
-		swap(nums[i], nums[j]);
-	}
-	reverse(nums.begin() + i + 1, nums.end());
-}
+public:
+    void nextPermutation(std::vector<int>& nums)
+    {
+        bool fnd = false;
+        int lr = 0;
+        for (lr = nums.size() - 2; lr >= 0; --lr)
+        {
+            if (nums[lr] < nums[lr + 1])
+            {
+                fnd = true;
+                break;
+            }
+        }
+        if (fnd == false)
+        {
+            std::sort(nums.begin(), nums.end());
+        }
+        else
+        {
+            for (int i = nums.size() - 1; i >= 0; --i)
+            {
+                if (nums[i] > nums[lr])
+                {
+                    std::swap(nums[lr], nums[i]);
+                    std::sort(nums.begin() + lr + 1, nums.end());
+                    break;
+                }
+            }
+        }
+    }
 };
