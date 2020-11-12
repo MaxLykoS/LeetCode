@@ -1,18 +1,23 @@
-class Solution {
+class Solution
+{
 public:
-vector<int> sortArrayByParityII(vector<int>& A) {
-         int odd = 1, pair = 0, len = A.size();
-        int tmp = 0;
-        vector<int> ans(len);
-        for (int i = 0; i < len; i++) {
-            if (A[i] & 1) {
-                ans[odd] = A[i];
-                odd += 2;
-            } else {
-                ans[pair] = A[i]; 
-                pair += 2;
+    std::vector<int> sortArrayByParityII(std::vector<int>& A)
+    {
+        auto res = std::vector<int>(A.size(), 0);
+        int oui = 0, jii = 1;
+        for (const int& i : A)
+        {
+            if (i % 2 == 0)
+            {
+                res[oui] = i;
+                oui += 2;
+            }
+            else
+            {
+                res[jii] = i;
+                jii += 2;
             }
         }
-        return ans;
+        return res;
     }
 };
