@@ -1,0 +1,50 @@
+class Solution
+{
+private:
+    void ClipZero(std::string& s)
+    {
+        if (s[0] == '0')
+        {
+            bool fndNoneZero = false;
+            for (int i = 1; i < s.size(); i++)
+            {
+                if (s[i] != '0')
+                {
+                    fndNoneZero = true;
+                    s = s.substr(i, s.size() - i);
+                    return;
+                }
+            }
+            if (fndNoneZero == false)
+            {
+                s.resize(1);
+            }
+        }
+    }
+public:
+    std::string removeKdigits(std::string num, int k)
+    {
+        while (k--)
+        {
+            bool flag = false;
+            for (int i = 0; i < num.size()-1; i++)
+            {
+                if (num[i] > num[i+1])
+                {
+                    flag = true;
+                    num.erase(num.begin() + i);
+                    break;
+                }
+            }
+            if (flag == false)
+            {
+                if (num.size() > 1)
+                    num.erase(num.begin() + num.size()-1);
+                else
+                    num = std::string("0");
+            }
+        }
+        ClipZero(num);
+        return num;
+    }
+};
