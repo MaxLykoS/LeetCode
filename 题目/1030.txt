@@ -1,0 +1,29 @@
+class Solution
+{
+public:
+    std::vector<std::vector<int>> allCellsDistOrder(int R, int C, int r0, int c0) 
+    {
+        auto ans = std::vector<std::vector<int>>(R * C, std::vector<int>(2, 0));
+        auto book = std::unordered_map<int, std::vector<std::vector<int>>>();
+        int maxD = INT_MIN;
+        for (int r = 0; r < R; r++)
+        {
+            for (int c = 0; c < C; c++)
+            {
+                const int dis = std::abs(r - r0) + std::abs(c - c0);
+                maxD = std::max(maxD, dis);
+                book[dis].emplace_back(std::move(std::vector<int>({ r,c })));
+            }
+        }
+        int index = 0;
+        for (int i = 0; i <= maxD; i++)
+        {
+            auto& grids = book[i];
+            for (int j = 0; j < grids.size(); j++)
+            {
+                ans[index++] = std::move(grids[j]);
+            }
+        }
+        return ans;
+    }
+};
