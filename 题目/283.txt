@@ -1,23 +1,21 @@
-class Solution {
-public:
-void moveZeroes(vector<int>& nums)
+class Solution
 {
-	int index = 0,zeroCount = 0;
-	for (int i = 0; i < nums.size(); i++)
-	{
-		if (nums[i] != 0)
-		{
-			nums[index] = nums[i];
-			++index;
-		}
-		else
-		{
-			++zeroCount;
-		}
-	}
-	for (int i = nums.size() - 1; zeroCount > 0; --i, --zeroCount)
-	{
-		nums[i] = 0;
-	}
-}
+public:
+    void moveZeroes(std::vector<int>& nums) 
+    {
+        int zeroCounts = 0;
+        int index = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (nums[i] != 0)
+            {
+                nums[index] = nums[i];
+                ++index;
+            }
+            else
+                ++zeroCounts;
+        }
+        for (int i = nums.size() - 1; i >= 0 && zeroCounts > 0; --i, --zeroCounts)
+            nums[i] = 0;
+    }
 };
