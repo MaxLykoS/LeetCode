@@ -1,0 +1,26 @@
+class Solution
+{
+public:
+    bool isAnagram(std::string s, std::string t)
+    {
+        if (s.size() != t.size())
+            return false;
+        std::unordered_map<char, int> books;
+        std::unordered_map<char, int> bookt;
+        
+        for (int i = 0;i<s.size();i++)
+        {
+            books[s[i]]++;
+            bookt[t[i]]++;
+        }
+
+        for (const auto& p : books)
+        {
+            if (p.second!=bookt[p.first])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+};
