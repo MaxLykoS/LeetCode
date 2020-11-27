@@ -1,0 +1,25 @@
+class Solution
+{
+public:
+	int fourSumCount(std::vector<int>& A, std::vector<int>& B, std::vector<int>& C, std::vector<int>& D)
+	{
+		if (A.empty())return 0;
+		int ans = 0;
+		std::unordered_map<int, int> book;
+		for(const auto& a : A)
+			for (const auto& b : B)
+			{
+				++book[a + b];
+			}
+		for(const auto& c : C)
+			for (const auto& d : D)
+			{
+				auto found = book.find(-1 * (c + d));
+				if (found!=book.end())
+				{
+					ans += found->second;
+				}
+			}
+		return ans;
+	}
+};
