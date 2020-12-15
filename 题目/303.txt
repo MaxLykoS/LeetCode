@@ -1,0 +1,33 @@
+class NumArray
+{
+private:
+	std::vector<int> preSum;
+	std::vector<int> nums;
+public:
+	NumArray(std::vector<int>& nums)
+		:
+		preSum(nums.size()),
+		nums(nums)
+	{
+		int sum = 0;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			sum += nums[i];
+			preSum[i] = sum;
+		}
+	}
+
+	int sumRange(int i, int j)
+	{
+		if (preSum.size() != 0)
+			return preSum[j] - preSum[i] + nums[i];
+		else
+			return -1;
+	}
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(i,j);
+ */

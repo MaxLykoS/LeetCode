@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool isSubsequence(std::string s, std::string t) 
+    {
+        int is = 0, it = 0;
+        for (; is < s.size() && it < t.size();it++)
+        {
+            if (t[it] == s[is])
+                is++;
+        }
+        return is == s.size();
+    }
+};
