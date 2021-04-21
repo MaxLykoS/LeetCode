@@ -1,0 +1,18 @@
+class Solution 
+{
+public:
+    std::string largestNumber(std::vector<int>& nums) 
+    {
+        auto vs = std::vector<std::string>();
+        std::string res;
+        for (int i : nums)
+        {
+            vs.emplace_back(std::to_string(i));
+        }
+        std::sort(vs.begin(), vs.end(), [](std::string& a, std::string& b) {return a + b > b + a; });
+        if (vs[0] == "0") return "0";
+        for (auto s : vs)
+            res += s;
+        return res;
+    }
+};

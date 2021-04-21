@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution 
+{
+private:
+    int min;
+    int last;
+    bool first;
+public:
+    int getMinimumDifference(TreeNode* root) 
+    {
+        min = INT_MAX;
+        last = INT_MIN;
+        first = true;
+        DFS(root);
+        return min;
+    }
+    void DFS(TreeNode* node)
+    {
+        if(node->left!=nullptr)
+            DFS(node->left);
+        if (first)
+        {
+            first = false;
+            last = node->val;
+        }
+        else
+        {
+            min = std::min(min, std::abs(last - node->val));
+            last = node->val;
+        }
+        if (node->right != nullptr)
+            DFS(node->right);
+    }
+};

@@ -1,0 +1,27 @@
+class Solution 
+{
+public:
+    bool containsNearbyAlmostDuplicate(std::vector<int>& nums, int k, int t)
+    {
+        int n = nums.size();
+        auto cache = std::vector<std::pair<int, int>>(n, std::make_pair<int, int>(0, 0));
+        for (int i = 0; i < n; i++)
+        {       
+            cache[i].first = nums[i];
+            cache[i].second = i;
+        }
+        std::sort(cache.begin(), cache.end());
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = i+1; j < n; j++)
+            {
+                if (std::abs((long)cache[i].first - (long)cache[j].first) > t)
+                    break;
+                if (std::abs(cache[i].second - cache[j].second) <= k)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
