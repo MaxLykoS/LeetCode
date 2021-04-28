@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool judgeSquareSum(long int c) 
+    {
+        if (c == 0)return true;
+        long int max = std::sqrt(c);
+        for (int a = 0; a <= max; a++)
+        {
+            long int b = c - a * a;
+            long int sqrtb = std::sqrt(b);
+            if (sqrtb * sqrtb == b)
+                return true;
+        }
+        return false;
+    }
+};
