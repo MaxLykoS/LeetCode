@@ -1,0 +1,51 @@
+class Solution {
+public:
+    std::vector<int> restoreArray(std::vector<std::vector<int>>& adjacentPairs)
+    {
+        if (adjacentPairs.size() == 1)
+            return adjacentPairs.front();
+        auto map = std::unordered_map<int, std::vector<int>>();
+        for (const auto& v : adjacentPairs)
+        {
+            if (map.find(v[0]) == map.end())
+                map[v[0]] = std::move(std::vector<int>(1, v[1]));
+            else
+                map[v[0]].emplace_back(v[1]);
+
+            if (map.find(v[1]) == map.end())
+                map[v[1]] = std::move(std::vector<int>(1, v[0]));
+            else
+                map[v[1]].emplace_back(v[0]);
+        }
+
+        auto ans = std::vector<int>(map.size());
+
+        int leftV = 0;
+        for (const auto& kv : map)
+        {
+            if (kv.second.size() == 1)
+            {
+                leftV = kv.first;
+                break;
+            }
+        }
+
+        ans[0] = leftV;
+        ans[1] = map[leftV].front();
+
+        for (int i = 2; i < ans.size(); i++)
+        {
+            auto& ref = map[ans[i - 1]];
+            for (int j = 0; j < ref.size(); j++)
+            {
+                if (ref[j] != ans[i - 2])
+                {
+                    ans[i] = ref[j];
+                    break;
+                }
+            }
+        }
+
+        return ans;
+    }
+};

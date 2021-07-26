@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isCovered(std::vector<std::vector<int>>& ranges, int left, int right)
+    {
+        auto set = std::unordered_set<int>();
+        for (int i = left; i <= right; i++)
+        {
+            bool found = false;
+            for (const std::vector<int>& v : ranges)
+            {
+                if (i>=v[0] && i<=v[1])
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (found == false)
+                return false;
+        }
+        return true;
+    }
+};

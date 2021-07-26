@@ -1,20 +1,22 @@
-class Solution 
-{
-    public:
-vector<int> twoSum(vector<int>& nums, int target)
-{
-	map<int, int> m;
-	vector<int>::iterator it = nums.begin();
-	for (; it != nums.end(); it++)
-		m[*it] = it - nums.begin();
+class Solution {
+public:
+    std::vector<int> twoSum(std::vector<int>& nums, int target) 
+    {
+        auto map = std::unordered_map<int, int>();
+        
+        for (int i = 0; i < nums.size(); i++)
+        {
+            map[nums[i]] = i;
+        }
 
-	for (it = nums.begin(); it != nums.end(); it++)
-	{
-		if (m.find(target - *it)!=m.end()&& it - nums.begin()!=m[target - *it])
-		{
-			return vector<int>({it-nums.begin(),m[target-*it]});
-		}
-	}
-	return vector<int>({0,1});
-}
+        for (int i = 0; i < nums.size(); i++)
+        {
+            int t = target - nums[i];
+            if (map.count(t) && i!=map[t])
+            {
+                return std::vector<int>({ i, map[t] });
+            }
+        }
+        return std::vector<int>({ 0, 1 });
+    }
 };

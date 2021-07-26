@@ -1,0 +1,13 @@
+class Solution {
+public:
+    std::vector<int> decode(std::vector<int>& encoded, int first) 
+    {
+        auto arr = std::vector<int>(encoded.size() + 1, 0);
+        arr[0] = first;
+        for (int i = 1; i < encoded.size() + 1; i++)
+        {
+            arr[i] = arr[i - 1] ^ encoded[i - 1];
+        }
+        return arr;
+    }
+};

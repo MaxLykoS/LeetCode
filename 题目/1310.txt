@@ -1,0 +1,15 @@
+class Solution {
+public:
+    std::vector<int> xorQueries(std::vector<int>& arr, std::vector<std::vector<int>>& queries)
+    {
+        auto preSum = arr;
+        for (int i = 1; i < preSum.size(); ++i)
+            preSum[i] = preSum[i] ^ preSum[i - 1];
+
+        auto ans = std::vector<int>();
+        for (const auto& q : queries)
+            ans.emplace_back(arr[q[0]] ^  preSum[q[0]] ^ preSum[q[1]]);
+
+        return ans;
+    }
+};

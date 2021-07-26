@@ -1,0 +1,39 @@
+class Solution {
+public:
+    struct Stone
+    {
+        int index;
+        std::unordered_set<int> ks;
+    };
+    bool canCross(std::vector<int>& stones) 
+    {
+        if (stones.size() <= 1)
+            return true;
+        if (stones[1] - stones[0] != 1)
+            return false;
+        auto dp = std::vector<Stone>(stones.size());
+        for (int i = 0;i<stones.size();i++)
+        {
+            dp[i].index = stones[i];
+        }
+        dp[1].ks.insert(1);
+
+        for (int i = 2; i < dp.size(); i++)
+        {
+            for (int j = 1; j < i; j++)
+            {
+                int offset = dp[i].index - dp[j].index;
+                auto& kset = dp[j].ks;
+
+                if (kset.find(offset - 1) != kset.end())
+                    dp[i].ks.insert(offset);
+                else if (kset.find(offset) != kset.end())
+                    dp[i].ks.insert(offset);
+                else if (kset.find(offset + 1) != kset.end())
+                    dp[i].ks.insert(offset);
+            }
+        }
+
+        return !dp.back().ks.empty();
+    }
+};

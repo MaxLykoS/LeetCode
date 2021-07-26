@@ -1,0 +1,34 @@
+class Solution {
+public:
+    std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& strs)
+    {
+        auto ids = std::vector<int>(strs.size());
+        auto book = std::unordered_map<std::string, int>();
+        int index = 0;
+        std::string t;
+        for (int i = 0;i <strs.size(); i++)
+        {
+            t = strs[i];
+            std::sort(t.begin(), t.end());
+            if (book.count(t) == 0)
+            {
+                book[t] = index;
+                ids[i] = index;
+                ++index;
+            }
+            else
+            {
+                int id = book[t];
+                ids[i] = id;
+            }
+        }
+
+        auto ans = std::vector<std::vector<std::string>>(index);
+        for (int i = 0; i < ids.size(); i++)
+        {
+            ans[ids[i]].emplace_back(strs[i]);
+        }
+
+        return ans;
+    }
+};

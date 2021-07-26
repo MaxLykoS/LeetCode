@@ -1,34 +1,40 @@
 class Solution {
 public:
-int search(vector<int>& nums, int target) 
-{
-	int start = 0;
-	int end = nums.size() - 1;
-	int mid;
-	while (start <= end) 
-	{
-		mid = (start + end) / 2;
-		if (target == nums[mid]) 
-			return mid;
-		//左半段是有序的
-		if (nums[start] <= nums[mid]) // 3 4 5 6 7 1 2 target=4
-		{
-			//target 在这段里
-			if (target >= nums[start] && target < nums[mid]) 
-				end = mid - 1;
-			else 
-				start = mid + 1;
-			//右半段是有序的
-		}
-		else 
-		{
-			if (target > nums[mid] && target <= nums[end]) 
-				start = mid + 1;
-			else 
-				end = mid - 1;
-		}
+    int search(std::vector<int>& nums, int target) 
+    {
+        if (nums.empty()) 
+            return -1;
+        if (nums.size() == 1) 
+            return nums[0] == target ? 0 : -1;
 
-	}
-	return -1;
-}
+        int left = 0, right = nums.size() - 1;
+        int mid = 0;
+        while (left <= right)
+        {
+            int mid = (left + right) / 2;
+
+            if (nums[mid] == target)
+                return mid;
+
+            if (nums[0] <= nums[mid]) //左边有序
+            {
+                if (nums[0] <= target && nums[mid] > target )
+                {
+                    right = mid - 1;
+                }
+                else
+                    left = mid + 1;
+            }
+            else  // 右边有序
+            {
+                if (nums[mid]< target && nums.back() >= target)
+                {
+                    left = mid + 1;
+                }
+                else
+                    right = mid - 1;
+            }
+        }
+        return -1;
+    }
 };
