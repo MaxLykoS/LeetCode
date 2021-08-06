@@ -1,0 +1,26 @@
+class Solution
+{
+public:
+    std::vector<int> pathInZigZagTree(int label) 
+    {
+        auto ans = std::vector<int>();
+
+        int layer = std::log(label) / std::log(2) + 1;
+        while (label > 0)
+        {
+            ans.emplace_back(label);
+            --layer;
+
+            int min = std::pow(2, layer - 1);
+            int max = min * 2 - 1;
+            int id = max + min - label / 2;
+            label = id;
+        }
+
+        int len = ans.size() / 2;
+        for (int i = 0; i < len; i++)
+            std::swap(ans[i], ans[ans.size() - i - 1]);
+
+        return ans;
+    }
+};

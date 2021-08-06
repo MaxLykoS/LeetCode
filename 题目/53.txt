@@ -1,20 +1,18 @@
-class Solution {
-public
-int maxSubArray(vectorint& nums) 
+class Solution
 {
-	int pre,cur,
-		maxVal = nums[0],
-		size=nums.size();
-	if (size == 0)
-		return 0;
-	pre = nums[0];
-	for (int i = 1;i  size;i++)
-	{
-		cur = max(pre + nums[i], nums[i]);
-		if (cur  maxVal)
-			maxVal = cur;
-		pre = cur;
-	}
-	return maxVal;
-}
+public:
+    int maxSubArray(std::vector<int>& nums) 
+    {
+        if (nums.size() == 1)
+            return nums.front();
+        std::vector<int> dp(nums.size(), 0);
+
+        dp[0] = nums.front();
+        for (int i = 1; i < nums.size(); i++)
+        {
+            dp[i] = std::max(dp[i - 1] + nums[i], nums[i]);
+        }
+
+        return *std::max_element(dp.begin(), dp.end());
+    }
 };

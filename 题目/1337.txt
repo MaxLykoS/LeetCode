@@ -1,0 +1,31 @@
+class Solution
+{
+public:
+    std::vector<int> kWeakestRows(std::vector<std::vector<int>>& mat, int k)
+    {
+        std::vector<std::tuple<int, int>> soldiers; //soldier index
+        
+        for (int i = 0;i<mat.size();i++)
+        {
+            int count = 0;
+            for (int j = 0; j < mat[i].size() && mat[i][j] != 0; j++)
+            {
+                ++count;
+            }
+            soldiers.push_back(std::make_tuple(count, i));
+        }
+
+        std::sort(soldiers.begin(), soldiers.end(), [](const std::tuple<int, int>& t1, const std::tuple<int, int>& t2)
+            {
+                if (std::get<0>(t1) == std::get<0>(t2))
+                    return std::get<1>(t1) < std::get<1>(t2);
+                else
+                    return std::get<0>(t1) < std::get<0>(t2);
+            });
+
+        std::vector<int> ans;
+        for (int i = 0; i < soldiers.size() && i<k; i++)
+            ans.emplace_back(std::get<1>(soldiers[i]));
+        return ans;
+    }
+};

@@ -1,34 +1,38 @@
-class Solution {
+class Solution
+{
 public:
-int Target;
-vector<int> Nums;
-vector<vector<int>> Ans;
-vector<int> Book;
-void Search(const int index,const int sum)
-{
-	if (sum == Target)
-	{
-		Ans.push_back(Book);
-		return;
-	}
-	else if (sum > Target)
-		return;
-	else if (sum < Target)
-	{
-		for (int i = index; i < Nums.size(); ++i)
-		{
-			Book.push_back(Nums[i]);
-			Search(i, sum + Nums[i]);
-			Book.pop_back();
-		}
-	}
-}
-vector<vector<int>> combinationSum(vector<int>& candidates, int target) 
-{
-	sort(candidates.begin(), candidates.end());
-	Target = target;
-	Nums = candidates;
-	Search(0,0);
-	return Ans;
-}
+    std::vector<std::vector<int>> ans;
+    std::vector<int> t;
+    int tar;
+    void DFS(int index, int sum, const std::vector<int>& nums)
+    {
+        if (index == nums.size())
+            return;
+
+        if (sum > tar)
+            return;
+        else if (sum == tar)
+            ans.emplace_back(t);
+        else
+        {
+            // skip
+            DFS(index + 1, sum, nums);
+
+            //choose
+            if (sum + nums[index] <= tar)
+            {
+                t.emplace_back(nums[index]);
+                DFS(index, sum + nums[index], nums);
+                t.pop_back();
+            }
+        }
+    }
+    std::vector<std::vector<int>> combinationSum(std::vector<int>& candidates, int target) 
+    {
+        tar = target;
+
+        DFS(0, 0, candidates);
+
+        return ans;
+    }
 };

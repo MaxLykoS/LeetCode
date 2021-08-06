@@ -1,0 +1,62 @@
+class Solution
+{
+public:
+    std::vector<std::string> possible;
+    std::vector<std::string> ans;
+    std::string route;
+    int N;
+    void DFS(int index)
+    {
+        if (index == N)
+        {
+            possible.emplace_back(route);
+        }
+        else
+        {
+            route[index] = '(';
+            DFS(index + 1);
+            route[index] = ')';
+            DFS(index + 1);
+        }
+    }
+    bool Valid(const std::string& s)
+    {
+        std::stack<char> stack;
+        for (const char& c : s)
+        {
+            if (c == '(')
+                stack.push(c);
+            else
+            {
+                if (stack.empty())
+                    return false;
+                else
+                {
+                    if (stack.top() == '(')
+                        stack.pop();
+                    else
+                        return false;
+                }
+            }
+        }
+
+        return stack.empty();
+    }
+    std::vector<std::string> generateParenthesis(int n)
+    {
+        N = 2* n;
+        route.resize(N);
+
+        DFS(0);
+
+        for (const auto& s : possible)
+        {
+            if (Valid(s))
+            {
+                ans.emplace_back(s);
+            }
+        }
+
+        return ans;
+    }
+};

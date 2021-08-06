@@ -1,0 +1,35 @@
+class Solution
+{
+public:
+    int index;
+    int K;
+    bool flag = false;
+    int ans;
+    void MidTraverse(TreeNode* node)
+    {
+        if (flag)
+            return;
+
+        if (node->left)
+            MidTraverse(node->left);
+
+        if (index == K)
+        {
+            flag = true;
+            ans = node->val;
+        }
+        ++index;
+        if (node->right)
+            MidTraverse(node->right);
+    }
+    int kthSmallest(TreeNode* root, int k)
+    {
+        index = 1;
+        K = k;
+        ans = 0;
+
+        MidTraverse(root);
+
+        return ans;
+    }
+};

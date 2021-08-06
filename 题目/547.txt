@@ -1,0 +1,31 @@
+class Solution 
+{
+public:
+    void DFS(std::vector<std::vector<int>>& isConnected,
+        std::vector<bool>& visited, int city)
+    {
+        for (int j = 0; j < isConnected.size(); j++)
+        {
+            if (isConnected[city][j] == 1 && !visited[j])
+            {
+                visited[j] = true;
+                DFS(isConnected, visited, j);
+            }
+        }
+    }
+    int findCircleNum(std::vector<std::vector<int>>& isConnected)
+    {
+        std::vector<bool> visited(isConnected.size(), false);
+        int ans = 0;
+        for (int i = 0; i < isConnected.size(); i++)
+        {
+            if (!visited[i])
+            {
+                DFS(isConnected, visited, i);
+                ans++;
+            }
+        }
+
+        return ans;
+    }
+};

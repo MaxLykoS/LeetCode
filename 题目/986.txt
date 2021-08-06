@@ -1,0 +1,49 @@
+
+#define v11 firstList[i1][0]
+#define v12 firstList[i1][1]
+#define v21 secondList[i2][0]
+#define v22 secondList[i2][1]
+
+class Solution
+{
+public:
+    std::vector<std::vector<int>> intervalIntersection(std::vector<std::vector<int>>& firstList, std::vector<std::vector<int>>& secondList)
+    {
+        auto ans = std::vector<std::vector<int>>();
+
+        int i1 = 0, i2 = 0;
+        while (i1 != firstList.size() && i2 != secondList.size())
+        {
+            if (v11<v21 && v12 >= v21 && v12 < v22)
+            {//1
+                ans.emplace_back(std::vector<int>({ v21, v12 }));
+                ++i1;
+            }
+            else if (v11 <= v22 && v11>v21 && v12 > v22)
+            {//2
+                ans.emplace_back(std::vector<int>({ v11, v22 }));
+                ++i2;
+            }
+            else if (v11 >= v21 && v12 <= v22)
+            {//3
+                ans.emplace_back(std::vector<int>({ v11, v12 }));
+                ++i1;
+            }
+            else if (v11 <= v21 && v12 >= v22)
+            {//4
+                ans.emplace_back(std::vector<int>({ v21, v22 }));
+                ++i2;
+            }
+            else if (v11 > v22)
+            {//5
+                ++i2;
+            }
+            else if (v12 < v21)
+            {//6
+                ++i1;
+            }
+        }
+
+        return ans;
+    }
+};

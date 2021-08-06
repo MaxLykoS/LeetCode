@@ -1,47 +1,41 @@
-class Solution {
+class Solution
+{
 public:
-vector<vector<int>> Ans;
-vector<int> Candidates;
-vector<int> Path;
-vector<bool> Book;
-int Target;
-void Search(const int INDEX, const int SUM)
-{
-	if (SUM == Target)
-	{
-		Ans.push_back(Path);
-	}
-	else if (SUM > Target)
-		return;
-	else
-	{
-		for (int i = INDEX; i < Candidates.size(); ++i)
-		{
-			if (SUM + Candidates[i] > Target)
-				break;
-			if (i > INDEX&& Candidates[i] == Candidates[i - 1])
-				continue;
-			if (Book[i] == true)
-			{
-				Book[i] = false;
-				Path.push_back(Candidates[i]);
-				Search(i + 1, SUM + Candidates[i]);
-				Book[i] = true;
-				Path.pop_back();
-			}
-		}
-	}
+    std::vector<std::vector<int>> ans;
+    std::vector<int> route;
+    std::vector<bool> visited;
+    void DFS(int index, const int remain, const std::vector<int>& nums)
+    {
+        if (remain == 0)
+        {
+            ans.emplace_back(route);
+        }
+        else
+        {
+            for (int i = index+1; i < nums.size(); ++i)
+            {
+                if (remain - nums[i] < 0)
+                    break;
+                if (i - 1 >= 0 && nums[i] == nums[i - 1] && !visited[i - 1])
+                    continue;
+                if (!visited[i])
+                {
+                    visited[i] = true;
+                    route.emplace_back(nums[i]);
+                    DFS(i, remain - nums[i], nums);
+                    visited[i] = false;
+                    route.pop_back();
+                }
+            }
+        }
+    }
+    std::vector<std::vector<int>> combinationSum2(std::vector<int>& candidates, int target)
+    {
+        std::sort(candidates.begin(), candidates.end());
+        visited = std::vector<bool>(candidates.size(), false);
 
-}
-vector<vector<int>> combinationSum2(vector<int>& candidates, int target) 
-{
-	Candidates = candidates;
-	Target = target;
-	Book.resize(candidates.size(),true);//true is valid;
+        DFS(-1, target, candidates);
 
-	sort(Candidates.begin(), Candidates.end());
-
-	Search(0, 0);
-	return Ans;
-}
+        return ans;
+    }
 };

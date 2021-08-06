@@ -1,27 +1,27 @@
-class Solution {
-public:
-    int findMin(vector<int>& nums) 
-    {
-        if(nums.empty())
-            return -1;
-        if(nums.size()==1)
-            return nums.back();
-        int left = 0, right = nums.size() - 1;
-        if (nums[right] > nums[0]) 
-            return nums[0];
-        while (left <= right)
-        {
-            int mid = (left + right) / 2;
-            if (nums[mid] > nums[mid + 1])
-                return nums[mid + 1];
-            if (nums[mid - 1] > nums[mid])
-                return nums[mid];
 
-            if (nums[mid] > nums[0])
-                left = mid + 1;
+class Solution
+{
+public:
+    int findMin(std::vector<int>& nums)
+    {
+        int left = 0, right = nums.size()-1;
+        int mid = 0;
+        
+        while (left < right)
+        {
+            mid = (left + right) / 2;
+
+            // 右侧有序
+            if (nums[mid] < nums[right])
+            {
+                right = mid;
+            }
+            // 左侧有序
             else
-                right = mid - 1;
+            {
+                left = mid + 1;
+            }
         }
-        return -1;
+        return nums[left];
     }
 };

@@ -1,0 +1,40 @@
+
+class CQueue 
+{
+public:
+    std::stack<int> s, store;
+    CQueue() 
+    {
+
+    }
+
+    void appendTail(int value) 
+    {
+        s.push(value);
+    }
+
+    int deleteHead() 
+    {
+        if (s.empty())
+            return -1;
+        else
+        {
+            while (!s.empty())
+            {
+                store.push(s.top());
+                s.pop();
+            }
+
+            int ans = store.top();
+            store.pop();
+
+            while (!store.empty())
+            {
+                s.push(store.top());
+                store.pop();
+            }
+
+            return ans;
+        }
+    }
+};

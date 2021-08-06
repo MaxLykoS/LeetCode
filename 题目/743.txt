@@ -1,0 +1,84 @@
+#define INF 65535
+
+class MyMap
+{
+public:
+	std::vector<std::vector<int>> map;
+public:
+	MyMap(int nodesCount)
+	:map(nodesCount, std::vector<int>(nodesCount, INF))
+	{
+		for (int i = 0; i < nodesCount; ++i)
+		{
+			map[i][i] = 0;
+		}
+	}
+	
+	void AddEdgeDir(const int& start, const int& end, const int& cost)
+	{
+		map[start][end] = cost;
+	}
+	
+	void AddEdgeNonDir(const int& start, const int& end, const int& cost)
+	{
+		map[end][start] = cost;
+		map[start][end] = cost;
+	}
+
+	const std::vector<int>* Dijkstra(const int& start)
+	{
+		int nodes = map.size();
+		std::vector<bool> found(nodes, false);
+		found[start] = true;
+		std::vector<int>* mins = new std::vector<int>(nodes);
+		for (int i = 0; i < nodes; ++i)
+		{
+			(*mins)[i] = map[start][i];
+		}
+
+		int cloestNode = 0;
+		for (int i = 0; i < nodes; ++i)
+		{
+			int min = INF;
+			for (int j = 0; j < nodes; ++j)
+			{
+				if (!found[j] && (*mins)[j] < min)
+				{
+					cloestNode = j;
+					min = (*mins)[j];
+				}
+			}
+
+			found[cloestNode] = true;
+
+			for (int j = 0; j < nodes; ++j)
+			{
+				int curCost = min + map[cloestNode][j];
+				if (!found[j] && (curCost < (*mins)[j]))
+				{
+					(*mins)[j] = curCost;
+				}
+			}
+		}
+
+		return mins;
+	}
+};
+
+class Solution
+{
+public:
+    int networkDelayTime(std::vector<std::vector<int>>& times, int n, int k)
+    {
+        MyMap map(n);
+        
+        for (const auto& edge : times)
+            map.AddEdgeDir(edge[0] - 1, edge[1] - 1, edge[2]);
+
+        const std::vector<int>* costs = map.Dijkstra(k - 1);
+
+        int ans = *std::max_element(costs->begin(), costs->end());
+        delete(costs);
+        return ans == 65535?-1:ans;
+    }
+}; 

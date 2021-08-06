@@ -1,0 +1,32 @@
+class Solution 
+{
+public:
+    int TargetSum;
+    bool ans;
+    void DFS(TreeNode* node, int sum)
+    {
+        if (ans)
+            return;
+        int newSum = sum + node->val;
+        if (!node->left && !node->right && newSum == TargetSum)
+        {
+            ans = true;
+            return;
+        }
+        
+        if (node->left)
+            DFS(node->left, newSum);
+        if (node->right)
+            DFS(node->right, newSum);
+    }
+    bool hasPathSum(TreeNode* root, int targetSum) 
+    {
+        if(!root)
+            return false;
+        TargetSum = targetSum;
+        ans = false;
+        DFS(root, 0);
+
+        return ans;
+    }
+};

@@ -1,0 +1,38 @@
+class Solution
+{
+public:
+    std::vector<int> route;
+    std::vector<std::vector<int>> ans;
+    std::vector<bool> visited;
+    int targetNode;
+    void DFS(int node, std::vector<std::vector<int>>& graph)
+    {
+        if (node == targetNode)
+        {
+            ans.emplace_back(route);
+            return;
+        }
+        
+        for (const auto& nei : graph[node])
+        {
+            if (!visited[nei])
+            {
+                route.emplace_back(nei);
+                visited[nei] = true;
+                DFS(nei, graph);
+                route.pop_back();
+                visited[nei] = false;
+            }
+        }
+    }
+    std::vector<std::vector<int>> allPathsSourceTarget(std::vector<std::vector<int>>& graph)
+    {
+        targetNode = graph.size() - 1;
+        visited = std::vector<bool>(graph.size(), false);
+        route.push_back(0);
+
+        DFS(0, graph);
+
+        return ans;
+    }
+};

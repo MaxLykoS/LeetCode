@@ -1,0 +1,22 @@
+class Solution
+{
+public:
+    int triangleNumber(std::vector<int>& nums) 
+    {
+        std::sort(nums.begin(), nums.end());
+
+        int ans = 0;
+
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            for (int j = i + 1; j < nums.size() - 1; ++j)
+            {
+                int target = nums[i] + nums[j];
+                int right = std::lower_bound(nums.begin() + j + 1, nums.end(), target)-nums.begin() - 1;
+                ans = ans + (right - j);
+            }
+        }
+
+        return ans;
+    }
+};

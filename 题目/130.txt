@@ -1,0 +1,46 @@
+class Solution
+{
+public:
+    char target;
+    void DFS(int i, int j, std::vector<std::vector<char>>& board)
+    {
+        if (i >= 0 && i < board.size() &&
+            j >= 0 && j < board[0].size())
+        {
+            if (board[i][j] != 'O')
+                return;
+            
+            board[i][j] = target;
+
+            DFS(i - 1, j, board);
+            DFS(i + 1, j, board);
+            DFS(i, j - 1, board);
+            DFS(i, j + 1, board);
+        }
+    }
+    void solve(std::vector<std::vector<char>>& board)
+    {        
+        target = '#';
+        for (int j = 0; j < board[0].size(); ++j)
+        {
+            DFS(0, j, board);
+            DFS(board.size() - 1, j, board);
+        }
+        for (int i = 0; i < board.size(); i++)
+        {
+            DFS(i, 0, board);
+            DFS(i, board[0].size() - 1, board);
+        }
+
+        target = 'X';
+
+        for (int i = 0; i < board.size(); i++)
+            for (int j = 0; j < board[i].size(); j++)
+                DFS(i, j, board);
+
+        for (auto& v : board)
+            for (auto& s : v)
+                if (s == '#')
+                    s = 'O';
+    }
+};

@@ -1,0 +1,55 @@
+
+class Solution
+{
+public:
+	ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
+	{
+		ListNode* n1 = l1;
+		ListNode* n2 = l2;
+
+		ListNode* ansHead = new ListNode(-1);
+		ListNode* ansNode = ansHead;
+		ListNode* pre = ansNode;
+
+		bool move = false;
+		int v = -1;
+		while (n1 != nullptr || n2 != nullptr)
+		{
+			v = -1;
+			if (n1 != nullptr && n2 != nullptr)
+				v = n1->val + n2->val;
+			else if (n1 == nullptr && n2 != nullptr)
+				v = n2->val;
+			else if (n1 != nullptr && n2 == nullptr)
+				v = n1->val;
+
+			if (move)
+			{
+				move = false;
+				++v;
+			}
+
+			move = v >= 10 ? true : false;
+
+			pre = ansNode;
+			ansNode->val = v % 10;
+			ansNode->next = new ListNode(-1);
+			ansNode = ansNode->next;
+
+			if (n1 != nullptr)
+				n1 = n1->next;
+			if (n2 != nullptr)
+				n2 = n2->next;
+		}
+
+		delete(pre->next);
+		pre->next = nullptr;
+		if (v >= 10)
+		{
+			pre->val = v % 10;
+			pre->next = new ListNode(v / 10);
+		}
+
+		return ansHead;
+	}
+};

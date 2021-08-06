@@ -1,0 +1,41 @@
+class Solution
+{
+public:
+    std::unordered_map<char, std::string> book;
+    std::string route;
+    std::vector<std::string> ans;
+    void DFS(int index, const std::string& digits)
+    {
+        if (index == digits.size())
+        {
+            ans.emplace_back(route);
+        }
+        else
+        {
+            const std::string& s = book[digits[index]];
+            for (int i = 0; i < s.size(); ++i)
+            {
+                route.push_back(s[i]);
+                DFS(index + 1, digits);
+                route.pop_back();
+            }
+        }
+    }
+    std::vector<std::string> letterCombinations(std::string digits)
+    {
+        if(digits.empty())
+            return ans;
+        book['2'] = "abc";
+        book['3'] = "def";
+        book['4'] = "ghi";
+        book['5'] = "jkl";
+        book['6'] = "mno";
+        book['7'] = "pqrs";
+        book['8'] = "tuv";
+        book['9'] = "wxyz";
+    
+        DFS(0, digits);
+
+        return ans;
+    }
+};

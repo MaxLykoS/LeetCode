@@ -1,0 +1,52 @@
+class Solution
+{
+public:
+    bool check(std::unordered_map<char, int>& window,
+        std::unordered_map<char, int>& buckp)
+    {
+        for (const auto& kv : buckp)
+        {
+            if (kv.second != window[kv.first])
+                return false;
+        }
+        return true;
+    }
+    std::vector<int> findAnagrams(std::string s, std::string p) 
+    {
+        auto ans = std::vector<int>();
+        if (s.size() < p.size())
+            return ans;
+
+        auto buckp = std::unordered_map<char, int>();
+        for (const auto& c : p)
+            buckp[c]++;
+
+        int left = 0, right = p.size() - 1;
+        auto window = std::unordered_map<char, int>();
+        for (int i = 0; i < 26; i++)
+        {
+            window['a' + i] = 0;
+        }
+        for (int i = left; i <= right; i++)
+        {
+            window[s[i]]++;
+        }
+        if (check(window, buckp))
+            ans.emplace_back(0);
+        left++;
+        right++;
+        
+        while (right < s.size())
+        {
+            window[s[left - 1]]--;
+            window[s[right]]++;
+            if (check(window, buckp))
+                ans.emplace_back(left);
+
+            left++;
+            right++;
+        }
+
+        return ans;
+    }
+};

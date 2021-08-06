@@ -1,0 +1,37 @@
+class Solution
+{
+public:
+    std::map<int, std::map<int, std::multiset<int>>> book;
+public:
+    void DFS(int row, int col, TreeNode* node)
+    {
+        book[col][row].insert(node->val);
+        if (node->left != nullptr)
+        {
+            DFS(row + 1, col - 1, node->left);
+        }
+        if (node->right != nullptr)
+        {
+            DFS(row + 1, col + 1, node->right);
+        }
+    }
+    std::vector<std::vector<int>> verticalTraversal(TreeNode* root) 
+    {
+        DFS(0, 0, root);
+
+        std::vector<std::vector<int>> ans;
+
+        for (const auto& colkv : book)
+        {
+            std::vector<int> t;
+            for (const auto& rowkv : colkv.second)
+            {
+                for(const auto& i : rowkv.second)
+                    t.emplace_back(i);
+            }
+            ans.emplace_back(t);
+        }
+
+        return ans;
+    }
+};

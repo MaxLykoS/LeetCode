@@ -1,0 +1,69 @@
+class Solution
+{
+public:
+    int targetRow;
+    int targetCol;
+    int ans;
+    std::vector<std::vector<int>> dirs;
+    std::vector<std::vector<int>> minCosts;
+
+    void BFS(const std::vector<std::vector<int>>& grid)
+    {
+        std::queue<std::tuple<int, int, int>> q;
+        q.push(std::make_tuple(0, 0, 1));
+
+        while (!q.empty())
+        {
+            int row = std::get<0>(q.front());
+            int col = std::get<1>(q.front());
+            int cost = std::get<2>(q.front());
+            q.pop();
+
+            if (row == targetRow && col == targetCol)
+                ans = std::min(ans, cost);
+
+            int newCost = cost + 1;
+            
+            for (const auto& dir : dirs)
+            {
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
+
+                if (newRow >= 0 && newRow <= targetRow
+                    && newCol >= 0 && newCol <= targetCol)
+                {
+                    if (grid[newRow][newCol]!=1 && minCosts[newRow][newCol] > newCost)
+                    {
+                        minCosts[newRow][newCol] = newCost;
+                        q.push(std::make_tuple(newRow, newCol, newCost));
+                    }
+                }
+            }
+        }
+    }
+    
+    int shortestPathBinaryMatrix(std::vector<std::vector<int>>& grid)
+    {
+        targetRow = grid.size() - 1;
+        targetCol = grid[0].size() - 1;
+        ans = std::numeric_limits<int>::max();
+        dirs.emplace_back(std::vector<int>({ -1, 0 }));//up
+        dirs.emplace_back(std::vector<int>({ 1, 0 }));//down
+        dirs.emplace_back(std::vector<int>({ 0, -1 }));//left
+        dirs.emplace_back(std::vector<int>({ 0, 1 }));//right
+        dirs.emplace_back(std::vector<int>({ -1, -1 }));//lt
+        dirs.emplace_back(std::vector<int>({ -1, 1 }));//rt
+        dirs.emplace_back(std::vector<int>({ 1, -1 }));//lb
+        dirs.emplace_back(std::vector<int>({ 1, 1 }));//rb
+
+        minCosts = std::vector<std::vector<int>>(grid.size(), std::vector<int>(grid.size(), std::numeric_limits<int>::max()));
+
+        minCosts[0][0] = 0;
+
+        if (grid[0][0] == 0)
+            BFS(grid);
+        else
+            return -1;
+        return ans == std::numeric_limits<int>::max()?-1:ans;
+    }
+};

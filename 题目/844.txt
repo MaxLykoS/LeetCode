@@ -1,0 +1,48 @@
+class Solution
+{
+public:
+    bool backspaceCompare(std::string s, std::string t)
+    {
+        auto ss = std::stack<char>();
+        for (const char& c : s)
+        {
+            if (c == '#')
+            {
+                if (!ss.empty())
+                    ss.pop();
+            }
+            else
+                ss.push(c);
+        }
+
+        auto st = std::stack<char>();
+        for (const char& c : t)
+        {
+            if (c == '#')
+            {
+                if(!st.empty())
+                    st.pop();
+            }
+            else
+                st.push(c);
+        }
+
+        if (ss.size() != st.size())
+            return false;
+
+        while (!ss.empty() && !st.empty())
+        {
+            if (ss.top() != st.top())
+                return false;
+            else
+            {
+                if(!ss.empty())
+                    ss.pop();
+                if(!st.empty())
+                    st.pop();
+            }
+        }
+
+        return true;
+    }
+};

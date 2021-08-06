@@ -1,0 +1,25 @@
+class Solution 
+{
+public:
+    bool Check(TreeNode* node, TreeNode* subNode)
+    {
+        if (node == nullptr && subNode == nullptr)
+            return true;
+
+        if ((node && !subNode) || (!node && subNode) || (node->val != subNode->val))
+            return false;
+
+        return Check(node->left, subNode->left) && Check(node->right, subNode->right);
+    }
+    bool DFS(TreeNode* node, TreeNode* subRoot)
+    {
+        if (node == nullptr)
+            return false;
+        return Check(node, subRoot) || DFS(node->left, subRoot) || DFS(node->right, subRoot);
+    }
+
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) 
+    {
+        return DFS(root, subRoot);
+    }
+};
