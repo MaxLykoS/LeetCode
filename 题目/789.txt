@@ -1,0 +1,16 @@
+class Solution
+{
+public:
+	bool escapeGhosts(std::vector<std::vector<int>>& ghosts, std::vector<int>& target) 
+	{
+		int mySteps = std::abs(target[0]) + std::abs(target[1]);
+
+		for (const auto& v : ghosts)
+		{
+			int steps = std::abs(target[0] - v[0]) + std::abs(target[1] - v[1]);
+			if (steps <= mySteps)
+				return false;
+		}
+		return true;
+	}
+};

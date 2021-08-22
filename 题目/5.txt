@@ -1,34 +1,37 @@
+#pragma once
+#include "Common.h"
+
 class Solution
 {
 public:
-    std::string longestPalindrome(std::string s)
-    {
-        if (s.size() <= 1)
-            return s;
-        auto dp = std::vector<std::vector<bool>>(s.size(), std::vector<bool>(s.size(), false));
+	std::string longestPalindrome(std::string s)
+	{
+		if (s.size() == 1)
+			return s;
 
-        for (int i = 0; i < s.size(); i++)
-            dp[i][i] = true;
+		std::vector<std::vector<bool>> dp(s.size(), std::vector<bool>(s.size(), false));
 
-        int maxI = 0, maxJ = 0;
-        for (int i = s.size() - 1; i >=0; i--)
-        {
-            for (int j = i + 1; j < s.size(); j++)
-            {
-                if (s[i] == s[j] && (dp[i + 1][j - 1] || j == i + 1))
-                {
-                    dp[i][j] = true;
-                    if (j - i > maxJ - maxI)
-                    {
-                        maxI = i;
-                        maxJ = j;
-                    }
-                }
-                else
-                    dp[i][j] = false;
-            }
-        }
+		int maxleft = 0, maxright = 0;
 
-        return s.substr(maxI, maxJ - maxI + 1);
-    }
+		for (int i = 0; i < s.size(); ++i)
+			dp[i][i] = true;
+
+		for (int i = s.size() - 1; i >= 0; --i)
+		{
+			for (int j = i + 1; j < s.size(); ++j)
+			{
+				if (s[i] == s[j] && (i + 1 == j || dp[i + 1][j - 1]))
+				{
+					dp[i][j] = true;
+					if (j - i > maxright - maxleft)
+					{
+						maxleft = i;
+						maxright = j;
+					}
+				}
+			}
+		}
+
+		return s.substr(maxleft, maxright - maxleft + 1);
+	}
 };

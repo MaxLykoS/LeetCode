@@ -1,0 +1,116 @@
+class TrieTree
+{
+public:
+	struct TrieNode
+	{
+		bool isWord;
+		std::vector<TrieNode*> childs;
+		
+		TrieNode()
+			:isWord(false), childs(26, nullptr)
+		{}
+	};
+private:
+	TrieNode* root;
+public:
+	TrieTree()
+		:
+		root(new TrieNode())
+	{}
+	TrieTree(const TrieTree&) = delete;
+	TrieTree& operator=(const TrieTree&) = delete;
+	void insert(const std::string& word)
+	{
+		TrieNode* node = root;
+		for (const char& c : word)
+		{
+			int code = c - 'a';
+			if (node->childs[code] == nullptr)
+				node->childs[code] = new TrieNode();
+			node = node->childs[code];
+		}
+		node->isWord = true;
+	}
+	bool search(const std::string& word)
+	{
+		TrieNode* node = root;
+
+		for (const char& c : word)
+		{
+			int code = c - 'a';
+			if (node->childs[code] == nullptr)
+				return false;
+			node = node->childs[code];
+		}
+
+		return node->isWord;
+	}
+	void deleteTrie(TrieNode* node)
+	{
+		for (int i = 0; i < node->childs.size(); ++i)
+		{
+			if (node->childs[i] != nullptr)
+				deleteTrie(node->childs[i]);
+		}
+		delete node;
+	}
+	TrieNode* GetRoot()
+	{
+		return root;
+	}
+	~TrieTree()
+	{
+		deleteTrie(root);
+	}
+};
+
+class Solution
+{
+public:
+	TrieTree tree;
+	bool ans;
+	std::unordered_map<int, bool> indexMemo;
+	void Break(const int start, const std::string& s)
+	{
+		if (ans)
+			return;
+		if (start >= s.size())
+		{
+			ans = true;
+			return;
+		}
+
+		if (indexMemo.find(start) != indexMemo.end())
+		{
+			if (indexMemo[start] == false)
+				return;
+			else
+			{
+				ans = true;
+				return;
+			}
+		}
+		else
+			return;
+		for (int i = 0; i + start <= s.size(); ++i)
+		{
+			if (!ans && tree.search(s.substr(start, i)))
+			{
+				indexMemo[start + i] = true;
+				Break(start + i, s);
+				indexMemo[start + i] = false;
+			}
+		}
+		indexMemo[start] = false;
+	}
+
+	bool wordBreak(std::string s, std::vector<std::string>& wordDict)
+	{
+		ans = false;
+		for (const std::string& word : wordDict)
+			tree.insert(word);
+
+		Break(0, s);
+		return ans;
+	}
+};

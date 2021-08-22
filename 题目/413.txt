@@ -1,0 +1,38 @@
+class Solution
+{
+public:
+	bool Check(const int& left, const int& right, const std::vector<int>& nums)
+	{
+		return right - left == 2 && right<nums.size() && left<nums.size() &&
+			nums[right] - nums[right - 1] == nums[left + 1] - nums[left];
+	}
+
+	int numberOfArithmeticSlices(std::vector<int>& nums)
+	{
+		int ans = 0;
+
+		if (nums.size() <= 2)
+			return ans;
+
+		std::vector<std::vector<bool>> dp(nums.size(), std::vector<bool>(nums.size(), false));
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			if (Check(i, i + 2, nums))
+			{
+				dp[i][i + 2] = true;
+				++ans;
+				for (int j = i + 3; j < nums.size(); ++j)
+				{
+					if (dp[i][j - 1] && nums[i+1] - nums[i] == nums[j] - nums[j-1])
+					{
+						dp[i][j] = true;
+						++ans;
+					}
+				}
+			}
+		}
+
+		return ans;
+	}
+};
