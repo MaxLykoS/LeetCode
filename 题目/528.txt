@@ -1,0 +1,26 @@
+class Solution 
+{
+private:
+    int sum;
+    std::vector<int> preSum;
+    std::mt19937 rand;
+    std::uniform_int_distribution<int> dist;
+public:
+    Solution(std::vector<int>& w) 
+        :
+        sum(std::accumulate(w.begin(), w.end(), 0)),
+        rand(std::chrono::system_clock::now().time_since_epoch().count()),
+        dist(1, sum)
+    {
+        std::partial_sum(w.begin(), w.end(), std::back_inserter(preSum));
+    }
+
+    int pickIndex() 
+    {
+        int w = dist(rand);
+       
+        int index = std::lower_bound(preSum.begin(), preSum.end(), w) - preSum.begin();
+
+        return index;
+    }
+};

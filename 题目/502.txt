@@ -1,0 +1,46 @@
+class Solution
+{
+public:
+    struct PC
+    {
+        int p;
+        int c;
+    };
+    int findMaximizedCapital(int k, int w, std::vector<int>& profits, std::vector<int>& capital) 
+    {
+        ++k;
+        int ans = w;
+        std::vector<PC> pcs(profits.size());
+        std::priority_queue<int, std::vector<int>, std::less<int>> maxHeap;
+
+        for (int i = 0; i < pcs.size(); ++i)
+        {
+            pcs[i].p = profits[i];
+            pcs[i].c = capital[i];
+        }
+
+        std::sort(pcs.begin(), pcs.end(), [](const PC& pc1, const PC& pc2)
+            {
+                return pc1.c < pc2.c;
+            });
+
+        int j = 0;
+        while (--k)
+        {
+            while (j<pcs.size() && pcs[j].c <=ans)
+            {
+                maxHeap.push(pcs[j].p);
+                ++j;
+            }
+
+            if (!maxHeap.empty())
+            {
+                ans += maxHeap.top();
+                maxHeap.pop();
+            }
+            else
+                break;
+        }
+        return ans;
+    }
+};

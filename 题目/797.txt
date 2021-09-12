@@ -1,38 +1,41 @@
 class Solution
 {
 public:
+    std::vector<std::vector<int>> routes;
     std::vector<int> route;
-    std::vector<std::vector<int>> ans;
-    std::vector<bool> visited;
+    std::vector<bool> book;
     int targetNode;
-    void DFS(int node, std::vector<std::vector<int>>& graph)
+    void DFS(int node, const std::vector<std::vector<int>>& graph)
     {
         if (node == targetNode)
         {
-            ans.emplace_back(route);
+            routes.push_back(route);
             return;
         }
-        
-        for (const auto& nei : graph[node])
+
+
+        for (const int& nei : graph[node])
         {
-            if (!visited[nei])
+            if (!book[nei])
             {
-                route.emplace_back(nei);
-                visited[nei] = true;
+                book[nei] = true;
+                route.push_back(nei);
                 DFS(nei, graph);
+                book[nei] = false;
                 route.pop_back();
-                visited[nei] = false;
             }
         }
     }
     std::vector<std::vector<int>> allPathsSourceTarget(std::vector<std::vector<int>>& graph)
     {
+        route.reserve(graph.size());
+        book = std::vector<bool>(graph.size(), false);
         targetNode = graph.size() - 1;
-        visited = std::vector<bool>(graph.size(), false);
         route.push_back(0);
+        book[0] = true;
 
         DFS(0, graph);
 
-        return ans;
+        return routes;
     }
 };

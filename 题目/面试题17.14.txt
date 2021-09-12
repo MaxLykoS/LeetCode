@@ -1,0 +1,30 @@
+class Solution
+{
+public:
+    std::vector<int> smallestK(std::vector<int>& arr, int k) 
+    {
+        std::vector<int> ans;
+        std::priority_queue<int, std::vector<int>, std::less<int>> minHeap;
+        for (int i = 0; i < k; ++i)
+            minHeap.push(arr[i]);
+
+        for (int i = k; i < arr.size(); ++i)
+        {
+            if (minHeap.top() > arr[i])
+            {
+                minHeap.pop();
+                minHeap.push(arr[i]);
+            }
+        }
+
+        ans.reserve(k);
+        while (!minHeap.empty())
+        {
+            ans.push_back(minHeap.top());
+            minHeap.pop();
+        }
+        std::reverse(ans.begin(), ans.end());
+
+        return ans;
+    }
+};

@@ -1,0 +1,43 @@
+template <typename T>
+class PreSumArray
+{
+private:
+    std::vector<T> preSum;
+public:
+    PreSumArray(const std::vector<int>& nums)
+        :
+        preSum(nums.size() + 1, 0)
+    {
+        for (int i = 1; i < preSum.size(); i++)
+        {
+            preSum[i] = preSum[i - 1] + nums[i - 1];
+        }
+    }
+    const T GetSum(const int& left, const int& right)
+    {
+        return preSum[right + 1] - preSum[left];
+    }
+    const std::vector<T>& Get() { return preSum; }
+    PreSumArray(const PreSumArray<T>&) = delete;
+    PreSumArray() = delete;
+    PreSumArray<T>& operator= (const PreSumArray<T>&) = delete;
+    T& operator[] (const int& index) { return preSum[index]; }
+};
+
+class Solution {
+public:
+    int chalkReplacer(std::vector<int>& chalk, int k) 
+    {
+        PreSumArray<long long> preSum(chalk);
+        long long sum = preSum.GetSum(0, chalk.size() - 1);
+
+        k = k % sum;
+
+        int left = 0;
+        int right = chalk.size() - 1;
+
+        int index = std::upper_bound(preSum.Get().begin(), preSum.Get().end(), k) - preSum.Get().begin();
+
+        return index - 1;
+    }
+};

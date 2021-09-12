@@ -1,0 +1,54 @@
+class MedianFinder 
+{
+private:
+    std::priority_queue<int, std::vector<int>, std::less<int>> maxHeap;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap;
+public:
+    MedianFinder() 
+    {
+
+    }
+
+    void addNum(int num) 
+    {
+        if (maxHeap.size() == minHeap.size())
+        {
+            if (minHeap.empty())
+            {
+                maxHeap.push(num);
+            }
+            else
+            {
+                if (num > minHeap.top())
+                {
+                    maxHeap.push(minHeap.top());
+                    minHeap.pop();
+                    minHeap.push(num);
+                }
+                else if (num <= minHeap.top())
+                {
+                    maxHeap.push(num);
+                }
+            }
+        }
+        else 
+        {
+            if (num > maxHeap.top())
+                minHeap.push(num);
+            else
+            {
+                minHeap.push(maxHeap.top());
+                maxHeap.pop();
+                maxHeap.push(num);
+            }
+        }
+    }
+
+    double findMedian() 
+    {
+        if (maxHeap.size() == minHeap.size())
+            return double(1.0 * (maxHeap.top() + minHeap.top())) / 2.0;
+        else
+            return maxHeap.top();
+    }
+};

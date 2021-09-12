@@ -1,0 +1,50 @@
+class PreSumArray
+{
+private:
+    std::vector<int> preSum;
+public:
+    PreSumArray(const std::vector<int>& nums)
+        :
+        preSum(nums.size() + 1, 0)
+    {
+        for (int i = 1; i < preSum.size(); i++)
+        {
+            preSum[i] = preSum[i - 1] + nums[i - 1];
+        }
+    }
+    const int GetSum(const int& left, const int& right)
+    {
+        return preSum[right + 1] - preSum[left];
+    }
+    const std::vector<int>& Get() { return preSum; }
+    PreSumArray(const PreSumArray&) = delete;
+    PreSumArray() = delete;
+    PreSumArray& operator= (const PreSumArray&) = delete;
+    int& operator[] (const int& index) { return preSum[index]; }
+};
+
+class Solution
+{
+public:
+    int sumOddLengthSubarrays(std::vector<int>& arr) 
+    {
+        PreSumArray preSum(arr);
+
+        int left = 0;
+        int ans = 0;
+
+        for (int len = 0; len < arr.size(); len += 2)
+        {
+            for (int left = 0; left < arr.size(); ++left)
+            {
+                int right = left + len;
+                if (right >= arr.size())
+                    break;
+
+                ans += preSum.GetSum(left, right);
+            }
+        }
+
+        return ans;
+    }
+};
