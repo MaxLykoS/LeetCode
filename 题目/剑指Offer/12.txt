@@ -1,0 +1,58 @@
+class Solution {
+public:
+	std::vector<std::vector<int>> dirs;
+	bool found;
+	void DFS(std::vector<std::vector<char>>& board, const std::string& word, const int wi, const int x, const int y)
+	{
+		if (found)
+			return;
+		if (wi >= word.size())
+		{
+			found = true;
+			return;
+		}
+
+		for (const auto& dir : dirs)
+		{
+			int newx = x + dir[0];
+			int newy = y + dir[1];
+			if (newx >= 0 && newx < board.size() && newy >= 0 && newy < board[newx].size())
+			{
+				if (board[newx][newy] == word[wi])
+				{
+					char c = board[newx][newy];
+					board[newx][newy] = '#';
+					DFS(board, word, wi + 1, newx, newy);
+					board[newx][newy] = c;
+				}
+			}
+		}
+	}
+	bool exist(std::vector<std::vector<char>>& board, std::string word)
+	{
+		dirs.emplace_back(std::vector<int>({ -1, 0 }));
+		dirs.emplace_back(std::vector<int>({ 1, 0 }));
+		dirs.emplace_back(std::vector<int>({ 0, 1 }));
+		dirs.emplace_back(std::vector<int>({ 0, -1 }));
+
+		found = false;
+		for (int i = 0; i < board.size(); ++i)
+		{
+			for (int j = 0; j < board[i].size(); ++j)
+			{
+				if (board[i][j] == word.front())
+				{
+					char c = board[i][j];
+					board[i][j] = '#';
+					DFS(board, word, 1, i, j);
+					board[i][j] = c;
+
+					if (found)
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
+};

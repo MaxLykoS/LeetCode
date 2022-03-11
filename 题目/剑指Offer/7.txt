@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution
+{
+private:
+    std::unordered_map<int, int> book;
+public:
+    TreeNode* buildTreeCore(const std::vector<int>& preorder, const std::vector<int>& inorder,
+        int pl, int pr, int il, int ir)
+    {
+        if (pl > pr)
+            return nullptr;
+
+        int preRoot = pl;
+        int inRoot = book[preorder[preRoot]];
+
+        int leftNodesCount = inRoot - il;
+
+        TreeNode* root = new TreeNode(preorder[preRoot]);
+
+        root->left = buildTreeCore(preorder, inorder, pl + 1, pl + leftNodesCount, il, inRoot - 1);
+        root->right = buildTreeCore(preorder, inorder, pl + leftNodesCount + 1, pr, inRoot + 1, ir);
+        return root;
+    }
+
+    TreeNode* buildTree(std::vector<int>& preorder, std::vector<int>& inorder)
+    {
+        for (int i = 0; i < inorder.size(); ++i)
+            book[inorder[i]] = i;
+
+        return buildTreeCore(preorder, inorder, 0, preorder.size() - 1, 0, inorder.size() - 1);
+    }
+};

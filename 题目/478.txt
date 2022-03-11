@@ -1,0 +1,39 @@
+class Solution 
+{
+public:
+    double radius;
+    double x;
+    double y;
+
+    unsigned seed;
+    std::mt19937 rand_num;
+    std::uniform_real_distribution<double> dist;
+    Solution(double radius, double x_center, double y_center) 
+        :
+        x(x_center), y(y_center),
+        seed(std::chrono::system_clock::now().time_since_epoch().count()), 
+        rand_num(seed),
+        dist(0, 1)
+    {
+        this->radius = radius;
+    }
+
+    inline double rand()
+    {
+        return dist(rand_num);
+    }
+
+    std::vector<double> randPoint()
+    {
+        double r = std::sqrt(rand()) * radius;
+        const double p2 = 2 * 3.14159265358979323846264338327950288L;
+        double theta = rand() * p2;
+        double _x = r * std::cos(theta);
+        double _y = r * std::sin(theta);
+
+        std::vector<double> ans(2, 0);
+        ans[0] = x + _x;
+        ans[1] = y + _y;
+        return ans;
+    }
+};

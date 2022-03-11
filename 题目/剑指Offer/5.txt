@@ -1,0 +1,32 @@
+class Solution 
+{
+public:
+    std::string replaceSpace(std::string s)
+    {
+        int spaceCount = 0;
+        for (const char& c : s)
+            if (c == ' ')
+                ++spaceCount;
+        int oldSize = s.size();
+        s.resize(oldSize + 2 * spaceCount);
+
+        int left = oldSize - 1;
+        int right = s.size();
+        while (left >= 0)
+        {
+            if (s[left] == ' ')
+            {
+                s[--right] = '0';
+                s[--right] = '2';
+                s[--right] = '%';
+            }
+            else
+            {
+                s[--right] = s[left];
+            }
+            --left;
+        }
+
+        return s;
+    }
+};

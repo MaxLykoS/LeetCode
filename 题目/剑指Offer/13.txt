@@ -1,0 +1,50 @@
+class Solution
+{
+public:
+	int ans;
+	std::vector<std::vector<int>> dirs;
+	int Add(int x, int y)
+	{
+		int sum = 0;
+		while (x)
+		{
+			sum += x % 10;
+			x /= 10;
+		}
+		while (y)
+		{
+			sum += y % 10;
+			y /= 10;
+		}
+		return sum;
+	}
+	void DFS(const int& x, const int& y, const int& k, std::vector<std::vector<bool>>& book)
+	{
+		for (const auto& dir : dirs)
+		{
+			int newX = x + dir[0];
+			int newY = y + dir[1];
+
+			if (newX < book.size() && newX >= 0 && newY >= 0 && newY < book[newX].size())
+			{
+				if (Add(newX, newY) <= k && book[newX][newY] == false)
+				{
+					book[newX][newY] = true;
+					++ans;
+					DFS(newX, newY, k, book);
+				}
+			}
+		}
+	}
+	int movingCount(int m, int n, int k)
+	{
+		std::vector<std::vector<bool>> book(m, std::vector<bool>(n, false));
+		ans = 0;
+		dirs.emplace_back(std::vector<int>({ -1, 0 }));
+		dirs.emplace_back(std::vector<int>({ 1, 0 }));
+		dirs.emplace_back(std::vector<int>({ 0, -1 }));
+		dirs.emplace_back(std::vector<int>({ 0, 1 }));
+		DFS(0, 0, k, book);
+        return ans == 0 ? 1 : ans;
+	}
+};

@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int findRepeatNumber(std::vector<int>& nums)
+    {
+        if (nums.empty())
+            return -1;
+        std::vector<bool> book(nums.size(), false);
+        for (const int& i : nums)
+        {
+            if (book[i] == false)
+                book[i] = true;
+            else
+                return i;
+        }
+        return -1;
+    }
+};

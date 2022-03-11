@@ -1,0 +1,33 @@
+class Solution
+{
+public:
+    int Dis(const std::vector<int>& p1, const std::vector<int>& p2)
+    {
+        int xdif = p1[0] - p2[0];
+        int ydif = p1[1] - p2[1];
+        return xdif * xdif + ydif * ydif;
+    }
+
+    int numberOfBoomerangs(std::vector<std::vector<int>>& points)
+    {
+        int ans = 0;
+
+        for (auto& p : points)
+        {
+            std::unordered_map<int, int> cnt;
+
+            for (auto& q: points)
+            {
+                int dis = Dis(p, q);
+                ++cnt[dis];
+            }
+
+            for (auto& kv : cnt) 
+            {
+                ans += kv.second * (kv.second - 1);
+            }
+        }
+
+        return ans;
+    }
+};

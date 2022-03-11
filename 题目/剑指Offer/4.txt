@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool findNumberIn2DArray(vector<vector<int>>& matrix, int target) 
+    {
+        if(matrix.empty())
+            return 0;
+
+        int row = 0, col = matrix[row].size() - 1;
+        bool found = false;
+
+        while(row < matrix.size() && col < matrix[row].size())
+        {
+            if(matrix[row][col] == target)
+            {
+                found = true;
+                break;
+            }
+            else if(matrix[row][col] < target)
+                ++row;
+            else
+                --col;
+        }
+
+        return found;
+    }
+};
